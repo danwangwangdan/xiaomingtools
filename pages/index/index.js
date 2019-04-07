@@ -4,51 +4,51 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    url: ''
   },
   //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
-  onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
+  toDecode: function() {
+    var that = this;
+    console.log(that.data.url)
+    if (that.data.url!=''){
+      wx.navigateTo({
+        url: '/pages/save/save?url=' + that.data.url
+      });
     } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
+      wx.showToast({
+        title: '不要忘了输入链接哦！',
+        icon: 'none',
+        duration: 2500
       })
     }
+   
   },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+  bindUrlValue: function (e) {
+    var that = this;
+    var value = e.detail.value;
+    that.setData({
+      url: value,
     })
-  }
+  },
+  onLoad: function() {
+
+  },
+  onShow: function() {
+    var that = this;
+    wx.getClipboardData({
+      success(res) {
+        if (res.data.indexOf('http') > -1) {
+          that.setData({
+            url: res.data
+          });
+          wx.showToast({
+            title: '自动获取链接成功',
+            icon: 'none',
+            duration: 1500
+          });
+        }
+      }
+    })
+  },
+
 })

@@ -1,13 +1,39 @@
 <!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+<view>
+  <image style='height:280rpx;width:100%' src="../../res/bg.png" mode="" />
+</view>
+<view style='margin-left:40rpx;margin-right:40rpx;'>
+  <wux-alert theme="stable" title="正确食用方式:" label="抖音APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击解析该链接 -> 成功后保存到相册 -> 推荐给朋友！" />
+  <wux-cell-group title="短视频链接">
+    <wux-cell hover-class="none">
+      <wux-textarea clear autoHeight controlled placeholder="轻触以输入链接" bind:change="bindUrlValue" value="{{url}}" />
+    </wux-cell>
+  </wux-cell-group>
+  <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
+    <wux-button block size="default" bind:click="toDecode" type="balanced">
+      <wux-icon type="md-color-wand" size="16" /> 解析该链接</wux-button>
+    <wux-button block size="default" bind:click="toShare" type="balanced">
+      <wux-icon type="md-share" size="16" /> 分享软件</wux-button>
+    <!-- <wux-row>
+      <wux-button block size="default" bind:click="toShare" type="balanced">
+        <wux-icon type="md-share" size="16" /> 分享软件</wux-button>
+      <wux-col span="12">
+        <wux-button block size="default" bind:click="toDecode" type="balanced">
+          <wux-icon type="md-color-wand" size="16" /> 解析该链接</wux-button>
+      </wux-col>
+    </wux-row>
+    <wux-row>
+      <wux-col span="5">
+        <wux-button block size="default" bind:click="toShare" type="balanced">
+          <wux-icon type="md-share" size="16" /> 分享软件</wux-button>
+      </wux-col>
+      <wux-col span="2">
+
+      </wux-col>
+      <wux-col span="5">
+        <wux-button block size="default" bind:click="toContact" type="balanced">
+          <wux-icon type="ios-chatbubbles" size="16" /> 联系客服</wux-button>
+      </wux-col>
+    </wux-row> -->
   </view>
 </view>
