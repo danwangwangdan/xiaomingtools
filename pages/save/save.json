@@ -1,0 +1,19 @@
+{
+  "usingComponents": {
+    "wux-cell-group": "../../plugins/wux/cell-group/index",
+    "wux-cell": "../../plugins/wux/cell/index",
+    "wux-textarea": "../../plugins/wux/textarea/index",
+    "wux-input": "../../plugins/wux/input/index",
+    "wux-row": "../../plugins/wux/row/index",
+    "wux-col": "../../plugins/wux/col/index",
+    "wux-avatar": "../../plugins/wux/avatar/index",
+    "wux-notice-bar": "../../plugins/wux/wing-blank/index",
+    "wux-white-space": "../../plugins/wux/white-space/index",
+    "wux-button": "../../plugins/wux/button/index",
+    "wux-icon": "../../plugins/wux/icon/index",
+    "wux-tag": "../../plugins/wux/tag/index",
+    "wux-alert": "../../plugins/wux/alert/index",
+    "wux-fab-button": "../../plugins/wux/fab-button/index"
+  },
+  "navigationBarTitleText": "小明斗音去水印"
+}

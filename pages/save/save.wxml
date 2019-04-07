@@ -1,0 +1,15 @@
+<view>
+  <image style='height:280rpx;width:100%' src="../../res/bg.png" mode="" />
+</view>
+<view style='margin-left:40rpx;margin-right:40rpx;'>
+  <wux-alert theme="stable" title="小提示:" label="如果解析失败，请联系客服处理！" />
+
+  <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
+    <video wx:if="{{isVedioShow}}" id="myVideo" src="{{url}}" autoplay controls></video>
+    <wux-button wx:if="{{isSaveShow}}" block size="default" bind:click="toContact" type="balanced">
+      <wux-icon type="ios-download" size="16" /> 存至相册</wux-button>
+
+    <wux-button block size="default" bind:click="toContact" type="balanced">
+      <wux-icon type="ios-chatbubbles" size="16" /> 联系客服</wux-button>
+  </view>
+</view>
