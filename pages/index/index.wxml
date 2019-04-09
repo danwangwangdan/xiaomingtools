@@ -4,7 +4,7 @@
   <image style='height:280rpx;width:100%' src="../../res/bg.png" mode="" />
 </view>
 <view style='margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert bind:click="showPic"  theme="stable" title="正确食用方式:（暂不支持从相册上传）" label="抖音APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后保存到相册 -> 推荐给朋友！" />
+  <wux-alert bind:click="showPic"  theme="stable" title="正确食用方式:（暂不支持从相册上传）" label="去抖音APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后保存到相册 -> 推荐给朋友！" />
   <wux-cell-group title="短视频链接">
     <wux-cell hover-class="none">
       <wux-input clear controlled placeholder="轻触以输入链接或去抖音复制链接" bind:change="bindUrlValue" bind:clear="bindUrlClear" value="{{url}}" />
@@ -25,3 +25,6 @@
     <view></view>
   </modal>
 </view>
+ <view class="footer">
+     <text style='font-size:26rpx; color:#80848f'>有idea或需要开发小程序的，请在下个页面联系客服</text>
+  </view>

@@ -2,8 +2,7 @@
   <image style='height:280rpx;width:100%' src="../../res/bg.png" mode="" />
 </view>
 <view style='margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert theme="stable" title="小提示:" label="保存至相册的耗时视您的网络状态而定，您可以先去干其他事，等会再来查看结果。如果解析失败，请联系客服处理！" />
-
+  <wux-alert theme="stable" title="小提示:" label="只有解析成功，才会出现存至相册的按钮，耗时由您的网络状态而定，您可以先去忙其他事。如果解析失败，请联系客服处理！" />
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
     <wux-button loading="{{isSaveBtnLoad}}" disabled="{{isSaveBtnDis}}" wx:if="{{isSaveShow}}" block size="default" bind:click="toSave" type="balanced">
       <wux-icon type="ios-download" size="16" /> {{saveBtnText}}</wux-button>
@@ -11,6 +10,9 @@
       <wux-icon type="md-share " size="16 " /> 分享软件</wux-button>
     <wux-button block size="default" openType="contact" type="balanced">
       <wux-icon type="ios-chatbubbles" size="16" /> 调戏客服</wux-button>
-       <video wx:if="{{isVedioShow}}" show-mute-btn id="myVideo" src="{{realUrl}}" autoplay controls></video>
+    <video wx:if="{{isVedioShow}}" show-mute-btn id="myVideo" src="{{realUrl}}" autoplay controls></video>
   </view>
+</view>
+<view class="footer">
+  <text style='font-size:26rpx; color:#80848f'>有idea或需要开发微信小程序的，请联系客服小哥哥</text>
 </view>

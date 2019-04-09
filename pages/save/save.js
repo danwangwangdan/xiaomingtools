@@ -11,7 +11,9 @@ Page({
   },
   toSave: function() {
     var that = this;
-    wx.authorize({ scope: "scope.writePhotosAlbum" })
+    wx.authorize({
+      scope: "scope.writePhotosAlbum"
+    })
     that.setData({
       isSaveBtnLoad: true,
       isSaveBtnDis: true
@@ -33,7 +35,7 @@ Page({
               })
             }
           })
-         
+
         } else {
           wx.showToast({
             title: '连接服务器失败，请联系客服！',
@@ -49,7 +51,7 @@ Page({
         saveBtnText: '存至相册中' + res.progress + '%...'
       });
       if (res.progress === 100) {
-      
+
         wx.showToast({
           title: '保存成功，请去系统相册查看！',
           icon: 'none',
@@ -71,7 +73,7 @@ Page({
     if (vedioUrl != '') {
       wx.showLoading({
         icon: 'none',
-        title: '最多等待30秒...',
+        title: '解析视频中...',
       })
       wx.request({
         url: app.globalData.localApiUrl + 'douyin/getRealUrl?url=' + vedioUrl,
@@ -79,9 +81,8 @@ Page({
         success(res) {
           console.log(res.data);
           wx.hideLoading();
-          if (res.data.code == 0) {
+          if (res.data != null && res.data.code == 0) {
             var data = res.data;
-            console.log("视频地址：" + data.data.url);
             if (data.data != null && data.data.url != '') {
               that.setData({
                 realUrl: data.data.url,
@@ -89,20 +90,20 @@ Page({
                 isVedioShow: true
               })
               wx.showToast({
-                title: '解析成功，加载视频中！',
+                title: '解析成功，您可以直接存至相册了！',
                 icon: 'none',
                 duration: 3000
               })
             } else {
               wx.showToast({
-                title: '解析失败，请联系客服处理！',
+                title: '解析失败，请检查链接或联系客服处理！',
                 icon: 'none',
                 duration: 3000
               })
             }
           } else {
             wx.showToast({
-              title: '解析失败，请联系客服处理！',
+              title: '解析失败，请检查链接或联系客服处理！',
               icon: 'none',
               duration: 3000
             })
@@ -126,14 +127,14 @@ Page({
     }
   },
   //转发
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     if (res.from === 'button') {
 
     }
     return {
-      title: '我发现了一个好用的斗音视频去水印工具',
+      title: '我发现了一个免费好用的斗音短视频去水印工具',
       path: '/pages/index/index',
-      success: function (res) {
+      success: function(res) {
         console.log('成功', res)
       }
     }
