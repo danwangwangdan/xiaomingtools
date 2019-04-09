@@ -1,9 +1,10 @@
 <!--index.wxml-->
+<add-tips/>
 <view>
   <image style='height:280rpx;width:100%' src="../../res/bg.png" mode="" />
 </view>
 <view style='margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert theme="stable" title="正确食用方式:" label="抖音APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击解析该链接 -> 成功后保存到相册 -> 推荐给朋友！" />
+  <wux-alert bind:click="showPic"  theme="stable" title="正确食用方式:（暂不支持从相册上传）" label="抖音APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后保存到相册 -> 推荐给朋友！" />
   <wux-cell-group title="短视频链接">
     <wux-cell hover-class="none">
       <wux-input clear controlled placeholder="轻触以输入链接或去抖音复制链接" bind:change="bindUrlValue" bind:clear="bindUrlClear" value="{{url}}" />
@@ -11,10 +12,16 @@
   </wux-cell-group>
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
     <wux-button block size="default " bind:click="toDecode" type="balanced ">
-      <wux-icon type="md-color-wand " size="16 " /> 解析链接</wux-button>
+      <wux-icon type="md-color-wand " size="16 " /> 获取视频</wux-button>
     <wux-button wx:if="{{isTextNull==0}}" block size="default " bind:click="pasteUrl" type="balanced ">
       <wux-icon type="md-copy" size="16 " /> 粘贴链接</wux-button>
-   <wux-button wx:if="{{isTextNull==1}}" block size="default " bind:click="bindUrlClear" type="balanced ">
+    <wux-button wx:if="{{isTextNull==1}}" block size="default " bind:click="bindUrlClear" type="balanced ">
       <wux-icon type="md-trash" size="16 " /> 清空内容</wux-button>
   </view>
+    <modal title="操作截图" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+    <view>
+      <image class="image" src="../../res/help.png" mode=''></image>
+    </view>
+    <view></view>
+  </modal>
 </view>

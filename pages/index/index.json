@@ -12,8 +12,10 @@
     "wux-button": "../../plugins/wux/button/index",
     "wux-icon": "../../plugins/wux/icon/index",
     "wux-tag": "../../plugins/wux/tag/index",
+    "wux-popover": "../../plugins/wux/popover/index",
     "wux-alert": "../../plugins/wux/alert/index",
-    "wux-fab-button": "../../plugins/wux/fab-button/index"
+    "wux-fab-button": "../../plugins/wux/fab-button/index",
+    "add-tips": "../../plugins/add-tips/index"
   },
   "navigationBarTitleText": "小明斗音去水印"
 }
