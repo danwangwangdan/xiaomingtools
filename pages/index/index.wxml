@@ -1,11 +1,20 @@
 <!--index.wxml-->
 <add-tips/>
 <view>
-  <image style='height:280rpx;width:100%' src="../../res/bg.png" mode="scaleToFill" />
+  <swiper class='u-wrp-bnr' indicator-dots='true' autoplay='true' interval='5000' duration='1000' circular='true'>
+    <block wx:for="{{bnrUrl}}" wx:key="index" wx:for-index="index">
+      <swiper-item>
+        <wux-image bind:click="previewImg" width='750rpx' src='{{item}}' mode='widthFix' load/>
+        <image src="/res/loading.png" slot="loading" />
+        <image src="/res/empty.png" slot="empty" />
+        <image src="/res/empty.png" slot="error" />
+      </swiper-item>
+    </block>
+  </swiper>
 </view>
 <view style='margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert bind:click="showPic"  theme="stable" title="正确食用方式:（暂不支持从相册上传）" label="去短视频APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后保存到相册 -> 推荐给朋友！" />
-  <wux-cell-group title="短视频链接（暂只支持抖音、快手、火山）">
+  <wux-alert bind:click="showPic" theme="stable" title="正确食用方式:（暂不支持从相册上传）" label="去短视频APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后保存到相册 -> 推荐给朋友！" />
+  <wux-cell-group controlled title="链接支持状态：{{status}}">
     <wux-cell hover-class="none">
       <wux-input clear controlled placeholder="轻触以输入链接或去APP复制链接" bind:change="bindUrlValue" bind:clear="bindUrlClear" value="{{url}}" />
     </wux-cell>
@@ -18,13 +27,13 @@
     <wux-button wx:if="{{isTextNull==1}}" block size="default " bind:click="bindUrlClear" type="balanced ">
       <wux-icon type="md-trash" size="16 " /> 清空内容</wux-button>
   </view>
-    <modal title="操作截图" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+  <modal title="操作截图" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
     <view>
       <image class="image" src="../../res/help.png" mode=''></image>
     </view>
     <view></view>
   </modal>
 </view>
- <view class="footer">
-     <text style='font-size:26rpx; color:#80848f'>有idea或需要开发小程序的，请在下个页面联系客服</text>
-  </view>
+<view class="footer">
+  <text style='font-size:26rpx; color:#80848f'>有idea或需要开发小程序的，请在下个页面联系客服</text>
+</view>

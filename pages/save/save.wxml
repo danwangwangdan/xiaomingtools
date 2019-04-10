@@ -1,5 +1,14 @@
 <view>
-  <image style='height:280rpx;width:100%' src="../../res/bg.png" mode="" />
+  <swiper class='u-wrp-bnr' indicator-dots='true' autoplay='true' interval='5000' duration='1000' circular='true'>
+    <block wx:for="{{bnrUrl}}" wx:key="index" wx:for-index="index">
+      <swiper-item>
+        <wux-image bind:click="previewImg" width='750rpx' src='{{item}}' mode='widthFix' load/>
+        <image src="/res/loading.png" slot="loading" />
+        <image src="/res/empty.png" slot="empty" />
+        <image src="/res/empty.png" slot="error" />
+      </swiper-item>
+    </block>
+  </swiper>
 </view>
 <view style='margin-left:40rpx;margin-right:40rpx;'>
   <wux-alert theme="stable" title="小提示:" label="只有解析成功，才会出现存至相册的按钮，耗时由您的网络状态而定，您可以先去忙其他事。如果解析失败，请联系客服处理！" />
@@ -10,7 +19,7 @@
       <wux-icon type="md-share " size="16 " /> 分享软件</wux-button>
     <wux-button block size="default" openType="contact" type="balanced">
       <wux-icon type="ios-chatbubbles" size="16" /> 调戏客服</wux-button>
-    <video wx:if="{{isVedioShow}}" show-mute-btn id="myVideo" src="{{realUrl}}" autoplay controls></video>
+    <video wx:if="{{isVedioShow}}" show-mute-btn id="myVideo" src="{{realUrl}}" controls></video>
   </view>
 </view>
 <view class="footer">
