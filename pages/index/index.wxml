@@ -1,13 +1,13 @@
 <!--index.wxml-->
 <add-tips/>
 <view>
-  <image style='height:280rpx;width:100%' src="../../res/bg.png" mode="" />
+  <image style='height:280rpx;width:100%' src="../../res/bg.png" mode="scaleToFill" />
 </view>
 <view style='margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert bind:click="showPic"  theme="stable" title="正确食用方式:（暂不支持从相册上传）" label="去抖音APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后保存到相册 -> 推荐给朋友！" />
-  <wux-cell-group title="短视频链接">
+  <wux-alert bind:click="showPic"  theme="stable" title="正确食用方式:（暂不支持从相册上传）" label="去短视频APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后保存到相册 -> 推荐给朋友！" />
+  <wux-cell-group title="短视频链接（暂只支持抖音、快手、火山）">
     <wux-cell hover-class="none">
-      <wux-input clear controlled placeholder="轻触以输入链接或去抖音复制链接" bind:change="bindUrlValue" bind:clear="bindUrlClear" value="{{url}}" />
+      <wux-input clear controlled placeholder="轻触以输入链接或去APP复制链接" bind:change="bindUrlValue" bind:clear="bindUrlClear" value="{{url}}" />
     </wux-cell>
   </wux-cell-group>
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>

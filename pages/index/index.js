@@ -138,7 +138,7 @@ Page({
 
     }
     return {
-      title: '我发现了一个好用的斗音视频去水印工具',
+      title: '我发现了一个好用的视频去水印工具',
       path: '/pages/index/index',
       success: function(res) {
         console.log('成功', res)
