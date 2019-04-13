@@ -211,13 +211,16 @@ Page({
           })
         }
       });
-    } else if (vedioUrl.indexOf('gifshow') > -1 || vedioUrl.indexOf('huoshan') > -1) {
+    } else if (decodeURIComponent(vedioUrl).indexOf('weishi') > -1) {
       wx.showLoading({
         icon: 'none',
         title: '解析视频中...',
       })
+      console.log(decodeURIComponent(vedioUrl).indexOf("&reqseq"));
+      vedioUrl = decodeURIComponent(vedioUrl).substring(0, decodeURIComponent(vedioUrl).indexOf("&reqseq"));
+      console.log("weishi：" + vedioUrl);
       wx.request({
-        url: app.globalData.localApiUrl + 'vedio/weishi?url=' + encodeURIComponent(vedioUrl),
+        url: app.globalData.localApiUrl + 'video/weishi?url=' + encodeURIComponent(vedioUrl),
         method: 'GET',
         success(res) {
           console.log(res.data);
