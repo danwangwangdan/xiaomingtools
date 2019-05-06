@@ -8,8 +8,8 @@ Page({
     isSaveBtnLoad: false,
     isSaveBtnDis: false,
     saveBtnText: '存至相册',
-    bnrUrl: ["https://www.daliandaxue.cn/img/qun.png",
-      "https://www.daliandaxue.cn/img/dybg.png"]
+    bnrUrl: ["https://loveshiming.oicp.vip/img/qun.png",
+      "https://loveshiming.oicp.vip/img/dybg.png"]
   },
   previewImg: function (e) {
     console.log(e.currentTarget.dataset.index);

@@ -4,6 +4,6 @@ App({
     
   },
   globalData: {
-    localApiUrl: "https://www.daliandaxue.cn/douyin-1.0/"
+    localApiUrl: "https://loveshiming.oicp.vip/douyin-1.0/"
   }
 })

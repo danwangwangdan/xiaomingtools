@@ -1,17 +1,17 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/save/save"
-    
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#f8f8f9",
     "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
   "networkTimeout": {
     "request": 30000,
     "uploadFile": 30000
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

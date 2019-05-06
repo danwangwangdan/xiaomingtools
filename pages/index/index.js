@@ -9,8 +9,8 @@ Page({
     status: '正在获取支持的平台...',
     isTextNull: 0,
     modalHidden: true,
-    bnrUrl: ["https://www.daliandaxue.cn/img/qun.png",
-      "https://www.daliandaxue.cn/img/dybg.png"
+    bnrUrl: ["https://loveshiming.oicp.vip/img/qun.png",
+      "https://loveshiming.oicp.vip/img/dybg.png"
     ]
   },
   /**
