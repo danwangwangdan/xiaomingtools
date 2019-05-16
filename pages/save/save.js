@@ -9,18 +9,30 @@ Page({
     isSaveBtnDis: false,
     saveBtnText: '存至相册',
     bnrUrl: ["https://loveshiming.oicp.vip/img/qun.png",
-      "https://loveshiming.oicp.vip/img/dybg.png"]
+      "https://loveshiming.oicp.vip/img/dybg.png"
+    ],
+    bnrUrl2: ["https://loveshiming.oicp.vip/img/cash.png"]
   },
-  previewImg: function (e) {
+  previewImg: function(e) {
     console.log(e.currentTarget.dataset.index);
     var index = 0;
     var bnrUrl = this.data.bnrUrl;
     wx.previewImage({
       current: bnrUrl[index], //当前图片地址
       urls: bnrUrl, //所有要预览的图片的地址集合 数组形式
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+  },
+  bindCash: function(e) {
+    var bnrUrl2 = this.data.bnrUrl2;
+    wx.previewImage({
+      current: bnrUrl2[0], //当前图片地址
+      urls: bnrUrl2, //所有要预览的图片的地址集合 数组形式
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
     })
   },
   toSave: function() {

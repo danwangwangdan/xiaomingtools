@@ -19,10 +19,11 @@
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
     <wux-button loading="{{isSaveBtnLoad}}" disabled="{{isSaveBtnDis}}" wx:if="{{isSaveShow}}" block size="default" bind:click="toSave" type="balanced">
       <wux-icon type="ios-download" size="16" /> {{saveBtnText}}</wux-button>
-    <wux-button block size="default " openType='share' type="balanced ">
-      <wux-icon type="md-share " size="16 " /> 分享软件</wux-button>
+  
     <wux-button block size="default" openType="contact" type="balanced">
-      <wux-icon type="ios-chatbubbles" size="16" /> 调戏客服</wux-button>
+      <wux-icon type="ios-chatbubbles" size="16" /> 联系客服</wux-button>
+        <wux-button block size="default " bind:click="bindCash" type="balanced ">
+      <wux-icon type="ios-timer" size="16 " /> 打赏作者给服务器提速</wux-button>
     <video wx:if="{{isVedioShow}}" show-mute-btn id="myVideo" src="{{realUrl}}" controls></video>
   </view>
 </view>

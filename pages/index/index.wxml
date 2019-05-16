@@ -26,7 +26,12 @@
       <wux-icon type="md-copy" size="16 " /> 粘贴链接</wux-button>
     <wux-button wx:if="{{isTextNull==1}}" block size="default " bind:click="bindUrlClear" type="balanced ">
       <wux-icon type="md-trash" size="16 " /> 清空内容</wux-button>
+    <wux-button block size="default " openType='share' type="balanced ">
+      <wux-icon type="md-share " size="16 " /> 分享软件</wux-button>
+    <wux-button block size="default " bind:click="bindCash" type="balanced ">
+      <wux-icon type="ios-timer" size="16 " /> 打赏作者给服务器提速</wux-button>
   </view>
+
   <modal title="操作截图" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
     <view>
       <image class="image" src="../../res/help.png" mode=''></image>

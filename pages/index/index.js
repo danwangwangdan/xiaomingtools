@@ -10,7 +10,9 @@ Page({
     isTextNull: 0,
     modalHidden: true,
     bnrUrl: ["https://loveshiming.oicp.vip/img/qun.png",
-      "https://loveshiming.oicp.vip/img/dybg.png"
+      "https://loveshiming.oicp.vip/img/qun.png"
+    ],
+    bnrUrl2: ["https://loveshiming.oicp.vip/img/cash.png"
     ]
   },
   /**
@@ -114,13 +116,23 @@ Page({
       })
     }
   },
+  bindCash: function (e) {
+    var bnrUrl2 = this.data.bnrUrl2;
+    wx.previewImage({
+      current: bnrUrl2[0], //当前图片地址
+      urls: bnrUrl2, //所有要预览的图片的地址集合 数组形式
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+  },
   onLoad: function() {
 
   },
   onShow: function() {
     var that = this;
     wx.request({
-      url: 'https://www.daliandaxue.cn/hishelp/common/dystatus',
+      url: 'https://loveshiming.oicp.vip/hishelp/common/dystatus',
       method: 'GET',
       success(res) {
         console.log(res.data);
