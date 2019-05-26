@@ -45,64 +45,82 @@ Page({
             console.log('激励视频 广告显示失败')
           })
       })
-    }
-    var that = this;
-    wx.authorize({
-      scope: "scope.writePhotosAlbum"
-    })
-    that.setData({
-      isSaveBtnLoad: true,
-      isSaveBtnDis: true
-    })
-    const downloadTask = wx.downloadFile({
-      url: that.data.realUrl,
-      success(res) {
-        console.log("开始下载...")
-        console.log(res)
-        if (res.statusCode === 200) {
-          wx.saveVideoToPhotosAlbum({
-            filePath: res.tempFilePath,
+
+      videoAd.onClose(res => {
+        // 用户点击了【关闭广告】按钮
+        if (res && res.isEnded) {
+          // 正常播放结束，可以下发游戏奖励
+          wx.showToast({
+            title: '开始存至相册，感谢支持！',
+            icon: 'none',
+            duration: 2000
+          })
+          var that = this;
+          wx.authorize({
+            scope: "scope.writePhotosAlbum"
+          })
+          that.setData({
+            isSaveBtnLoad: true,
+            isSaveBtnDis: true
+          })
+          const downloadTask = wx.downloadFile({
+            url: that.data.realUrl,
             success(res) {
+              console.log("开始下载...")
               console.log(res)
-              wx.showToast({
-                title: '保存成功，请去系统相册查看！',
-                icon: 'none',
-                duration: 3000
+              if (res.statusCode === 200) {
+                wx.saveVideoToPhotosAlbum({
+                  filePath: res.tempFilePath,
+                  success(res) {
+                    console.log(res)
+                    wx.showToast({
+                      title: '保存成功，请去系统相册查看！',
+                      icon: 'none',
+                      duration: 3000
+                    })
+                  }
+                })
+
+              } else {
+                wx.showToast({
+                  title: '连接服务器失败，请联系客服！',
+                  icon: 'none',
+                  duration: 3000
+                })
+              }
+            }
+          });
+          downloadTask.onProgressUpdate((res) => {
+            console.log('下载进度', res)
+            that.setData({
+              saveBtnText: '存至相册中' + res.progress + '%...'
+            });
+            if (res.progress === 100) {
+              that.setData({
+                isSaveBtnLoad: false,
+                isSaveBtnDis: false,
+                saveBtnText: '存至相册'
               })
             }
           })
-
         } else {
           wx.showToast({
-            title: '连接服务器失败，请联系客服！',
+            title: '请观看完广告再下载哦，谢谢支持！',
             icon: 'none',
             duration: 3000
           })
         }
-      }
-    });
-    downloadTask.onProgressUpdate((res) => {
-      console.log('下载进度', res)
-      that.setData({
-        saveBtnText: '存至相册中' + res.progress + '%...'
-      });
-      if (res.progress === 100) {
-        that.setData({
-          isSaveBtnLoad: false,
-          isSaveBtnDis: false,
-          saveBtnText: '存至相册'
-        })
-      }
-    })
+      })
+    }
   },
   onLoad: function(options) {
     if (wx.createRewardedVideoAd) {
       videoAd = wx.createRewardedVideoAd({
         adUnitId: 'adunit-498062c378a63ba4'
       })
-      videoAd.onLoad(() => { })
-      videoAd.onError((err) => { })
-      videoAd.onClose((res) => { })
+      videoAd.onLoad(() => {})
+      videoAd.onError((err) => {})
+      videoAd.onClose((res) => {})
     }
     var vedioUrl = options.url;
     console.log("options.url:" + vedioUrl)
