@@ -1,7 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
+let interstitialAd = null
 Page({
   data: {
     isBtnShow: false,
@@ -127,10 +127,25 @@ Page({
     })
   },
   onLoad: function() {
-
+    if (wx.createInterstitialAd) {
+      interstitialAd = wx.createInterstitialAd({
+        adUnitId: 'adunit-e7d9cd4b1f5a4c00'
+      })
+      interstitialAd.onLoad(() => { })
+      interstitialAd.onError((err) => { })
+      interstitialAd.onClose(() => { })
+    }
   },
   onShow: function() {
     var that = this;
+
+      if (interstitialAd) {
+        interstitialAd.show().catch((err) => {
+          console.error(err)
+        })
+      }
+   
+   
     wx.request({
       url: 'https://loveshiming.oicp.vip/hishelp/common/dystatus',
       method: 'GET',

@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <add-tips/>
 <view>
-  <swiper class='u-wrp-bnr' indicator-dots='true' autoplay='true' interval='5000' duration='1000' circular='true'>
+  <!-- <swiper class='u-wrp-bnr' indicator-dots='true' autoplay='true' interval='5000' duration='1000' circular='true'>
     <block wx:for="{{bnrUrl}}" wx:key="index" wx:for-index="index">
       <swiper-item>
         <wux-image bind:click="previewImg" width='750rpx' src='{{item}}' mode='widthFix' load/>
@@ -10,9 +10,10 @@
         <image src="/res/empty.png" slot="error" />
       </swiper-item>
     </block>
-  </swiper>
+  </swiper> -->
+  <ad unit-id="adunit-5dec35ad334a4ca8"></ad>
 </view>
-<view style='margin-left:40rpx;margin-right:40rpx;'>
+<view style='margin-top:40rpx;margin-left:40rpx;margin-right:40rpx;'>
   <wux-alert bind:click="showPic" theme="stable" title="正确食用方式:（暂不支持从相册上传）" label="去短视频APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后保存到相册 -> 推荐给朋友！" />
   <wux-cell-group controlled title="链接支持：抖音、快手、火山">
     <wux-cell hover-class="none">
@@ -22,13 +23,13 @@
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
     <wux-button block size="default " bind:click="toDecode" type="balanced ">
       <wux-icon type="md-color-wand " size="16 " /> 获取视频</wux-button>
-    <wux-button wx:if="{{isTextNull==0}}" block size="default " bind:click="pasteUrl" type="balanced ">
+    <wux-button wx:if="{{isTextNull==0}}" block size="default "outline  bind:click="pasteUrl" type="balanced ">
       <wux-icon type="md-copy" size="16 " /> 粘贴链接</wux-button>
-    <wux-button wx:if="{{isTextNull==1}}" block size="default " bind:click="bindUrlClear" type="balanced ">
+    <wux-button wx:if="{{isTextNull==1}}" block size="default "outline  bind:click="bindUrlClear" type="balanced ">
       <wux-icon type="md-trash" size="16 " /> 清空内容</wux-button>
-    <wux-button block size="default " openType='share' type="balanced ">
+    <wux-button block size="default " outline  openType='share' type="balanced ">
       <wux-icon type="md-share " size="16 " /> 分享软件</wux-button>
-    <wux-button block size="default " bind:click="bindCash" type="balanced ">
+    <wux-button block size="default " outline  bind:click="bindCash" type="balanced ">
       <wux-icon type="ios-timer" size="16 " /> 打赏作者给服务器提速</wux-button>
   </view>
 

@@ -1,5 +1,5 @@
 const app = getApp()
-
+let videoAd = null
 Page({
   data: {
     isSaveShow: false,
@@ -36,6 +36,16 @@ Page({
     })
   },
   toSave: function() {
+    if (videoAd) {
+      videoAd.show().catch(() => {
+        // 失败重试
+        videoAd.load()
+          .then(() => videoAd.show())
+          .catch(err => {
+            console.log('激励视频 广告显示失败')
+          })
+      })
+    }
     var that = this;
     wx.authorize({
       scope: "scope.writePhotosAlbum"
@@ -86,6 +96,14 @@ Page({
     })
   },
   onLoad: function(options) {
+    if (wx.createRewardedVideoAd) {
+      videoAd = wx.createRewardedVideoAd({
+        adUnitId: 'adunit-498062c378a63ba4'
+      })
+      videoAd.onLoad(() => { })
+      videoAd.onError((err) => { })
+      videoAd.onClose((res) => { })
+    }
     var vedioUrl = options.url;
     console.log("options.url:" + vedioUrl)
     var that = this;

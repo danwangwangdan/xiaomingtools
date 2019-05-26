@@ -1,9 +1,7 @@
 
-
-
-
 <view>
-  <swiper class='u-wrp-bnr' indicator-dots='true' autoplay='true' interval='5000' duration='1000' circular='true'>
+<ad unit-id="adunit-5dec35ad334a4ca8"></ad>
+  <!-- <swiper class='u-wrp-bnr' indicator-dots='true' autoplay='true' interval='5000' duration='1000' circular='true'>
     <block wx:for="{{bnrUrl}}" wx:key="index" wx:for-index="index">
       <swiper-item>
         <wux-image bind:click="previewImg" width='750rpx' src='{{item}}' mode='widthFix' load/>
@@ -12,17 +10,17 @@
         <image src="/res/empty.png" slot="error" />
       </swiper-item>
     </block>
-  </swiper>
+  </swiper> -->
 </view>
-<view style='margin-left:40rpx;margin-right:40rpx;'>
+<view style='margin-top:40rpx;margin-left:40rpx;margin-right:40rpx;'>
   <wux-alert theme="stable" title="小提示:" label="只有解析成功，才会出现存至相册的按钮，耗时由您的网络状态而定，您可以先去忙其他事。如果解析失败，请联系客服处理！" />
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
     <wux-button loading="{{isSaveBtnLoad}}" disabled="{{isSaveBtnDis}}" wx:if="{{isSaveShow}}" block size="default" bind:click="toSave" type="balanced">
       <wux-icon type="ios-download" size="16" /> {{saveBtnText}}</wux-button>
   
-    <wux-button block size="default" openType="contact" type="balanced">
+    <wux-button block size="default" outline openType="contact" type="balanced">
       <wux-icon type="ios-chatbubbles" size="16" /> 联系客服</wux-button>
-        <wux-button block size="default " bind:click="bindCash" type="balanced ">
+        <wux-button block size="default " outline bind:click="bindCash" type="balanced ">
       <wux-icon type="ios-timer" size="16 " /> 打赏作者给服务器提速</wux-button>
     <video wx:if="{{isVedioShow}}" show-mute-btn id="myVideo" src="{{realUrl}}" controls></video>
   </view>
