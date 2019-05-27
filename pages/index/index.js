@@ -1,7 +1,6 @@
 //index.js
 //获取应用实例
 const app = getApp()
-let interstitialAd = null
 Page({
   data: {
     isBtnShow: false,
@@ -127,45 +126,30 @@ Page({
     })
   },
   onLoad: function() {
-    if (wx.createInterstitialAd) {
-      interstitialAd = wx.createInterstitialAd({
-        adUnitId: 'adunit-e7d9cd4b1f5a4c00'
-      })
-      interstitialAd.onLoad(() => { })
-      interstitialAd.onError((err) => { })
-      interstitialAd.onClose(() => { })
-    }
+    
   },
   onShow: function() {
     var that = this;
-
-      if (interstitialAd) {
-        interstitialAd.show().catch((err) => {
-          console.error(err)
-        })
-      }
-   
-   
-    wx.request({
-      url: 'https://loveshiming.oicp.vip/hishelp/common/dystatus',
-      method: 'GET',
-      success(res) {
-        console.log(res.data);
-        if (res.data != null && res.data.data != null) {
-          that.setData({
-            status: res.data.data.noticeText == '' ? '抖音√ 快手√ 火山√ 微视√' : res.data.data.noticeText
-          })
-        }
-      },
-      fail() {
-        $stopWuxRefresher() //停止下拉刷新
-        wx.showToast({
-          title: '网络请求失败，请稍后重试！',
-          icon: 'none',
-          duration: 3000
-        })
-      }
-    });
+    // wx.request({
+    //   url: 'https://loveshiming.oicp.vip/hishelp/common/dystatus',
+    //   method: 'GET',
+    //   success(res) {
+    //     console.log(res.data);
+    //     if (res.data != null && res.data.data != null) {
+    //       that.setData({
+    //         status: res.data.data.noticeText == '' ? '抖音√ 快手√ 火山√ 微视√' : res.data.data.noticeText
+    //       })
+    //     }
+    //   },
+    //   fail() {
+    //     $stopWuxRefresher() //停止下拉刷新
+    //     wx.showToast({
+    //       title: '网络请求失败，请稍后重试！',
+    //       icon: 'none',
+    //       duration: 3000
+    //     })
+    //   }
+    // });
     wx.getClipboardData({
       success(res) {
         var lastUrl = wx.getStorageSync('lastUrl');
