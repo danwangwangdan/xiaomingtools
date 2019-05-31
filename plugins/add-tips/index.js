@@ -8,7 +8,7 @@ Component({
     // 提示文字
     text: {
       type: String,
-      value: '点击这里「添加到我的小程序」，下次访问不迷路'
+      value: '点击这里「添加到我的小程序」，下次访问不迷路！'
     },
     // 多少秒后关闭
     duration: {

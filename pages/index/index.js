@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+let interstitialAd = null
 Page({
   data: {
     isBtnShow: false,
@@ -11,8 +12,8 @@ Page({
     bnrUrl: ["https://loveshiming.oicp.vip/img/qun.png",
       "https://loveshiming.oicp.vip/img/qun.png"
     ],
-    bnrUrl2: ["https://loveshiming.oicp.vip/img/cash.png"
-    ]
+    bnrUrl2: ["https://loveshiming.oicp.vip/img/cash.png"],
+    bnrUrl3: ["https://loveshiming.oicp.vip/img/qun.png"]
   },
   /**
    * 显示弹窗
@@ -115,41 +116,65 @@ Page({
       })
     }
   },
-  bindCash: function (e) {
+  bindCash: function(e) {
     var bnrUrl2 = this.data.bnrUrl2;
     wx.previewImage({
       current: bnrUrl2[0], //当前图片地址
       urls: bnrUrl2, //所有要预览的图片的地址集合 数组形式
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+  },
+  bindAdvice: function(e) {
+    var bnrUrl3 = this.data.bnrUrl3;
+    wx.previewImage({
+      current: bnrUrl3[0], //当前图片地址
+      urls: bnrUrl3, //所有要预览的图片的地址集合 数组形式
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
     })
   },
   onLoad: function() {
-    
+    if (wx.createInterstitialAd) {
+      interstitialAd = wx.createInterstitialAd({
+        adUnitId: 'adunit-e7d9cd4b1f5a4c00'
+      })
+      interstitialAd.onLoad(() => {})
+      interstitialAd.onError((err) => {})
+      interstitialAd.onClose(() => {})
+    }
   },
   onShow: function() {
     var that = this;
-    // wx.request({
-    //   url: 'https://loveshiming.oicp.vip/hishelp/common/dystatus',
-    //   method: 'GET',
-    //   success(res) {
-    //     console.log(res.data);
-    //     if (res.data != null && res.data.data != null) {
-    //       that.setData({
-    //         status: res.data.data.noticeText == '' ? '抖音√ 快手√ 火山√ 微视√' : res.data.data.noticeText
-    //       })
-    //     }
-    //   },
-    //   fail() {
-    //     $stopWuxRefresher() //停止下拉刷新
-    //     wx.showToast({
-    //       title: '网络请求失败，请稍后重试！',
-    //       icon: 'none',
-    //       duration: 3000
-    //     })
-    //   }
-    // });
+
+    if (interstitialAd) {
+      interstitialAd.show().catch((err) => {
+        console.error(err)
+      })
+    }
+
+    wx.request({
+      url: 'https://loveshiming.oicp.vip/hishelp/common/dystatus',
+      method: 'GET',
+      success(res) {
+        console.log(res.data);
+        if (res.data != null && res.data.data != null) {
+          that.setData({
+            status: res.data.data.noticeText == '' ? '抖音正常 快手正常 火山正常' : res.data.data.noticeText
+          })
+        }
+      },
+      fail() {
+        $stopWuxRefresher() //停止下拉刷新
+        wx.showToast({
+          title: '网络请求失败，请稍后重试！',
+          icon: 'none',
+          duration: 3000
+        })
+      }
+    });
     wx.getClipboardData({
       success(res) {
         var lastUrl = wx.getStorageSync('lastUrl');
@@ -178,7 +203,7 @@ Page({
 
     }
     return {
-      title: '我发现了一个好用的视频去水印工具',
+      title: '我发现了一个好用的抖音短视频去水印工具',
       path: '/pages/index/index',
       success: function(res) {
         console.log('成功', res)

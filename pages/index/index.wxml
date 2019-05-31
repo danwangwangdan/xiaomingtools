@@ -14,8 +14,8 @@
   <ad unit-id="adunit-5dec35ad334a4ca8"></ad>
 </view>
 <view style='margin-top:40rpx;margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert bind:click="showPic" theme="stable" title="正确食用方式:（暂不支持从相册上传）" label="去短视频APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后保存到相册 -> 推荐给朋友！" />
-  <wux-cell-group controlled title="链接支持：抖音、快手、火山">
+  <wux-alert bind:click="showPic" theme="stable" title="正确食用方式:（暂不支持从相册上传）" label="去短视频APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后保存到相册 -> 开心的时候多点击广告支持作者！" />
+  <wux-cell-group controlled title="链接支持：{{status}}">
     <wux-cell hover-class="none">
       <wux-input clear controlled placeholder="轻触以输入链接或去APP复制链接" bind:change="bindUrlValue" bind:clear="bindUrlClear" value="{{url}}" />
     </wux-cell>
@@ -23,14 +23,28 @@
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
     <wux-button block size="default " bind:click="toDecode" type="balanced ">
       <wux-icon type="md-color-wand " size="16 " /> 获取视频</wux-button>
-    <wux-button wx:if="{{isTextNull==0}}" block size="default "outline  bind:click="pasteUrl" type="balanced ">
+    <wux-button wx:if="{{isTextNull==0}}" block size="default " outline bind:click="pasteUrl" type="balanced ">
       <wux-icon type="md-copy" size="16 " /> 粘贴链接</wux-button>
-    <wux-button wx:if="{{isTextNull==1}}" block size="default "outline  bind:click="bindUrlClear" type="balanced ">
+    <wux-button wx:if="{{isTextNull==1}}" block size="default " outline bind:click="bindUrlClear" type="balanced ">
       <wux-icon type="md-trash" size="16 " /> 清空内容</wux-button>
-    <wux-button block size="default " outline  openType='share' type="balanced ">
+    <wux-button block size="default " outline openType='share' type="balanced ">
       <wux-icon type="md-share " size="16 " /> 分享软件</wux-button>
-    <wux-button block size="default " outline  bind:click="bindCash" type="balanced ">
-      <wux-icon type="ios-timer" size="16 " /> 打赏作者给服务器提速</wux-button>
+    <view>
+      <wux-row style='margin-top:-30rpx;'>
+        <wux-col span="5">
+          <wux-button block size="default " outline bind:click="bindAdvice" type="balanced ">
+
+            <wux-icon type="ios-add-circle-outline " size="16 " /> 加反馈群</wux-button>
+        </wux-col>
+        <wux-col span="2">
+        </wux-col>
+        <wux-col span="5">
+          <wux-button block size="default " outline bind:click="bindCash" type="balanced ">
+            <wux-icon type="ios-timer" size="16 " /> 打赏作者</wux-button>
+        </wux-col>
+      </wux-row>
+    </view>
+
   </view>
 
   <modal title="操作截图" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
