@@ -15,7 +15,7 @@ Page({
   toSign: function(options) {
     console.log("签到");
     wx.request({
-      url: app.globalData.localApiUrl + 'douyin/getRealUrl?url=' + encodeURIComponent(vedioUrl),
+      url: app.globalData.myApiUrl + 'hishelp/add?url=' + encodeURIComponent(vedioUrl),
       method: 'GET',
       success(res) {
         console.log(res.data);
