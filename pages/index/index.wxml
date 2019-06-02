@@ -1,4 +1,4 @@
-<!--index.wxml-->
+ <!--index.wxml-->
 <add-tips/>
 <view>
   <!-- <swiper class='u-wrp-bnr' indicator-dots='true' autoplay='true' interval='5000' duration='1000' circular='true'>
@@ -23,12 +23,26 @@
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
     <wux-button block size="default " bind:click="toDecode" type="balanced ">
       <wux-icon type="md-color-wand " size="16 " /> 获取视频</wux-button>
-    <wux-button wx:if="{{isTextNull==0}}" block size="default " outline bind:click="pasteUrl" type="balanced ">
+      <view>
+      <wux-row style='margin-top:-30rpx;'>
+        <wux-col span="5">
+           <wux-button wx:if="{{isTextNull==0}}" block size="default " outline bind:click="pasteUrl" type="balanced ">
       <wux-icon type="md-copy" size="16 " /> 粘贴链接</wux-button>
-    <wux-button wx:if="{{isTextNull==1}}" block size="default " outline bind:click="bindUrlClear" type="balanced ">
+       <wux-button wx:if="{{isTextNull==1}}" block size="default " outline bind:click="bindUrlClear" type="balanced ">
       <wux-icon type="md-trash" size="16 " /> 清空内容</wux-button>
-    <wux-button block size="default " outline openType='share' type="balanced ">
-      <wux-icon type="md-share " size="16 " /> 分享软件</wux-button>
+        </wux-col>
+        <wux-col span="2">
+        </wux-col>
+        <wux-col span="5">
+          <wux-button block size="default " outline bind:click="bindTest" type="balanced ">
+            <wux-icon type="ios-paw" size="16 " /> 测试连接</wux-button>
+        </wux-col>
+      </wux-row>
+    </view>
+ 
+   
+    <!-- <wux-button block size="default " outline openType='share' type="balanced ">
+      <wux-icon type="md-share " size="16 " /> 分享软件</wux-button> -->
     <view>
       <wux-row style='margin-top:-30rpx;'>
         <wux-col span="5">
@@ -53,7 +67,4 @@
     </view>
     <view></view>
   </modal>
-</view>
-<view class="footer">
-  <text style='font-size:26rpx; color:#80848f'>有idea或需要开发小程序的，请在下个页面联系客服</text>
 </view>

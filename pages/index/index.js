@@ -83,6 +83,12 @@ Page({
       isTextNull: 0
     })
   },
+  bindTest: function () {
+    this.setData({
+      url: 'http://v.douyin.com/Mw5coA/',
+      isTextNull: 1
+    })
+  },
   pasteUrl: function() {
     var that = this;
     wx.getClipboardData({

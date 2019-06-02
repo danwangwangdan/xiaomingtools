@@ -1,5 +1,5 @@
 const app = getApp()
-let videoAd = null
+// let videoAd = null
 Page({
   data: {
     isSaveShow: false,
@@ -7,7 +7,7 @@ Page({
     realUrl: '',
     isSaveBtnLoad: false,
     isSaveBtnDis: false,
-    saveBtnText: '存至相册',
+    saveBtnText: '存至相册，2积分/次',
     bnrUrl: ["https://loveshiming.oicp.vip/img/qun.png",
       "https://loveshiming.oicp.vip/img/dybg.png"
     ],
@@ -36,19 +36,19 @@ Page({
     })
   },
   toSave: function() {
-    if (videoAd) {
-      videoAd.show().catch(() => {
-        // 失败重试
-        videoAd.load()
-          .then(() => videoAd.show())
-          .catch(err => {
-            console.log('激励视频 广告显示失败')
-          })
-      })
+    // if (videoAd) {
+    //   videoAd.show().catch(() => {
+    //     // 失败重试
+    //     videoAd.load()
+    //       .then(() => videoAd.show())
+    //       .catch(err => {
+    //         console.log('激励视频 广告显示失败')
+    //       })
+    //   })
 
-      videoAd.onClose(res => {
-        // 用户点击了【关闭广告】按钮
-        if (res && res.isEnded) {
+    //   videoAd.onClose(res => {
+    //     // 用户点击了【关闭广告】按钮
+    //     if (res && res.isEnded) {
           // 正常播放结束，可以下发游戏奖励
           wx.showToast({
             title: '开始存至相册，感谢支持！',
@@ -81,7 +81,8 @@ Page({
                   }
                 })
 
-              } else {
+              } 
+              else {
                 wx.showToast({
                   title: '连接服务器失败，请联系客服！',
                   icon: 'none',
@@ -103,27 +104,28 @@ Page({
               })
             }
           })
-        } else {
-          wx.showToast({
-            title: '请观看完广告再下载哦，谢谢支持！',
-            icon: 'none',
-            duration: 3000
-          })
         }
-      })
-    }
+        //  else {
+        //   wx.showToast({
+        //     title: '请观看完广告再下载哦，谢谢支持！',
+        //     icon: 'none',
+        //     duration: 3000
+        //   })
+        // }
+    //   })
+    // }
   },
   onLoad: function(options) {
-    if (wx.createRewardedVideoAd) {
-      videoAd = wx.createRewardedVideoAd({
-        adUnitId: 'adunit-498062c378a63ba4'
-      })
-      videoAd.onLoad(() => {})
-      videoAd.onError((err) => {})
-      videoAd.onClose((res) => {})
-    }
+    // if (wx.createRewardedVideoAd) {
+    //   videoAd = wx.createRewardedVideoAd({
+    //     adUnitId: 'adunit-498062c378a63ba4'
+    //   })
+    //   videoAd.onLoad(() => {})
+    //   videoAd.onError((err) => {})
+    //   videoAd.onClose((res) => {})
+    // }
     var vedioUrl = options.url;
-    console.log("options.url:" + vedioUrl)
+    // console.log("options.url:" + vedioUrl)
     var that = this;
     if (vedioUrl != '' && vedioUrl.indexOf('douyin') > -1) {
       wx.showLoading({

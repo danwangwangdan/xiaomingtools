@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "wux-tag": "../../plugins/wux/tag/index"
+  },
+  "navigationBarTitleText": "榜单视频"
+}

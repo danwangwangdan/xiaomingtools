@@ -1,6 +1,8 @@
 {
   "pages": [
+    "pages/me/me",
     "pages/index/index",
+    "pages/hot/hot",
     "pages/save/save"
   ],
   "window": {
@@ -12,6 +14,26 @@
   "networkTimeout": {
     "request": 30000,
     "uploadFile": 30000
+  },
+  "tabBar": {
+    "color": "#9CC9BF",
+    "selectedColor": "#ED7F00",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "pics/tab_home.png",
+        "selectedIconPath": "pics/tab_home_fill.png"
+      },
+     
+      {
+        "pagePath": "pages/me/me",
+        "text": "个人中心",
+        "iconPath": "pics/tab_people.png",
+        "selectedIconPath": "pics/tab_people_fill.png"
+      }
+    ]
   },
   "sitemapLocation": "sitemap.json"
 }

@@ -4,7 +4,6 @@
             <image class="wux-card__thumb" src="{{ thumb }}" mode="aspectFit" style="{{ thumbStyle }}" wx:if="{{ thumb }}" />
             <text>{{ title }}</text>
         </view>
-        <view class="wux-card__extra" wx:if="{{ extra }}">{{ extra }}</view>
     </view>
     <view class="wux-card__bd">
         <slot name="body"></slot>
