@@ -39,7 +39,6 @@
         </wux-col>
       </wux-row>
     </view>
- 
    
     <!-- <wux-button block size="default " outline openType='share' type="balanced ">
       <wux-icon type="md-share " size="16 " /> 分享软件</wux-button> -->

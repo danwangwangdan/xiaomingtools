@@ -5,7 +5,7 @@
     </view>
     <view class="user-info flex-item">
       <text class="userinfo-nickname">{{nickname}}</text>
-      <text class="edit">积分： {{point}}  解析1次需要2积分。</text>
+      <text  decode="{{true}}" class="edit">积分： {{point}}&ensp;&ensp;下载1次需要2积分。</text>
     </view>
   </view>
 </view>
@@ -13,7 +13,7 @@
   <wux-wing-blank size="default" bindtap="toSign">
     <wux-card title=" 每日签到" thumb="../../../pics/sign.png" extra="">
       <view slot="body">每日可签到一次，签到一次获取1积分。点击该卡片即可签到</view>
-      <view slot="footer">1/1</view>
+      <view slot="footer">{{signCount}}/1</view>
     </wux-card>
   </wux-wing-blank>
 </view>
@@ -21,7 +21,7 @@
   <wux-wing-blank size="default">
     <wux-card title=" 每日分享" thumb="../../../pics/share.png" extra="">
       <view slot="body">每日可分享一次，分享一次获取2积分。点击该卡片即可分享</view>
-      <view slot="footer">1/3</view>
+      <view slot="footer">{{shareCount}}/1</view>
     </wux-card>
   </wux-wing-blank>
 </view>
@@ -29,7 +29,7 @@
   <wux-wing-blank size="default">
     <wux-card title=" 观看视频" thumb="../../../pics/video.png" extra="">
       <view slot="body">每日可观看十次，观看一次获取2积分。点击该卡片即可播放</view>
-      <view slot="footer">1/10</view>
+      <view slot="footer">{{videoCount}}/10</view>
     </wux-card>
   </wux-wing-blank>
 </view>
