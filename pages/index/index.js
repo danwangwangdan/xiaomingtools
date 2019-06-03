@@ -104,22 +104,38 @@ Page({
         }
       });
     } else { // 已登录
-      if (that.data.url.indexOf('http') > -1) {
-        if (that.data.url.indexOf('weishi') > -1) {
-          wx.navigateTo({
-            url: '/pages/save/save?url=' + encodeURIComponent(that.data.url)
-          });
-        } else {
-          wx.navigateTo({
-            url: '/pages/save/save?url=' + that.data.url
-          });
-        }
+      if (wx.getStorageSync("userInfo").point < 2) {
+        wx.showModal({
+          title: '积分不足2分',
+          content: '先去个人中心完成简单的任务增加积分哦',
+          success: function(res) {
+            if (res.confirm) {
+              wx.navigateTo({
+                url: '/pages/me/me'
+              });
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        });
       } else {
-        wx.showToast({
-          title: '要输入正确的链接呀！',
-          icon: 'none',
-          duration: 3000
-        })
+        if (that.data.url.indexOf('http') > -1) {
+          if (that.data.url.indexOf('weishi') > -1) {
+            wx.navigateTo({
+              url: '/pages/save/save?url=' + encodeURIComponent(that.data.url)
+            });
+          } else {
+            wx.navigateTo({
+              url: '/pages/save/save?url=' + that.data.url
+            });
+          }
+        } else {
+          wx.showToast({
+            title: '要输入正确的链接呀！',
+            icon: 'none',
+            duration: 3000
+          })
+        }
       }
     }
   },
@@ -281,11 +297,6 @@ Page({
         wx.hideLoading();
         var userInfo = res.data.data;
         if (userInfo != null) {
-          wx.showToast({
-            title: '登录成功！',
-            icon: 'none',
-            duration: 3000
-          })
           wx.setStorageSync("userInfo", userInfo);
         }
       },
@@ -322,6 +333,6 @@ Page({
   },
   //转发
   onShareAppMessage: function(res) {
-    
+
   }
 })

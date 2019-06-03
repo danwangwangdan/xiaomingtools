@@ -113,7 +113,19 @@ Page({
               }
             })
           } else if (data.data.code = -101) {
-            //积分不足，是否前去做简单的任务！
+            wx.showModal({
+              title: '积分不足2分',
+              content: '先去个人中心完成简单的任务增加积分哦',
+              success: function(res) {
+                if (res.confirm) {
+                  wx.navigateTo({
+                    url: '/pages/me/me'
+                  });
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            });
           }
         }
       }

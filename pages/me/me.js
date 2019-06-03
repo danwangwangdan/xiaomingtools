@@ -1,4 +1,5 @@
 var app = getApp()
+let videoAd = null
 Page({
 
   /**
@@ -15,7 +16,7 @@ Page({
   toSign: function(options) {
     console.log("签到");
     wx.request({
-      url: app.globalData.myApiUrl + 'hishelp/add?id=' + wx.getStorageSync("userInfo").id + '&count=1',
+      url: app.globalData.myApiUrl + 'hishelp/add?id=' + wx.getStorageSync("userInfo").id + '&type=3',
       method: 'GET',
       success(res) {
         console.log(res.data);
@@ -23,7 +24,7 @@ Page({
         var data = res.data;
         if (data.data != null && data.data.code >= 0) {
           wx.showToast({
-            title: ' 签到成功！',
+            title: ' 签到成功，增加1积分！',
             icon: 'none',
             duration: 2000
           })
@@ -48,23 +49,72 @@ Page({
       }
     });
   },
-  
+
   toShare: function(options) {
     console.log("分享");
   },
   toVideo: function(options) {
     console.log("视频");
+    if (videoAd) {
+      videoAd.show().catch(() => {
+        // 失败重试
+        videoAd.load()
+          .then(() => videoAd.show())
+          .catch(err => {
+            console.log('激励视频 广告显示失败')
+          })
+      })
+      videoAd.onClose(res => {
+        // 用户点击了【关闭广告】按钮
+        if (res && res.isEnded) {
+          // 正常播放结束，可以下发游戏奖励
+          wx.request({
+            url: app.globalData.myApiUrl + 'hishelp/add?id=' + wx.getStorageSync("userInfo").id + '&type=1',
+            method: 'GET',
+            success(res) {
+              console.log(res.data);
+              wx.hideLoading();
+              var data = res.data;
+              if (data.data != null && data.data.code >= 0) {
+                wx.showToast({
+                  title: '观看成功，增加2积分！',
+                  icon: 'none',
+                  duration: 2000
+                })
+                that.setData({
+                  point: point + 2,
+                  videoCount: (videoCount > 7) ? 1 : (videoCount + 1),
+                })
+              }
+            },
+            fail() {
+              wx.showToast({
+                title: '网络请求失败，请稍后重试！',
+                icon: 'none',
+                duration: 3000
+              })
+            }
+          });
+        } else {
+          wx.showToast({
+            title: '请观看完广告再下载哦，谢谢支持！',
+            icon: 'none',
+            duration: 3000
+          })
+        }
+      })
+    }
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     if (res.from === 'button') {
       console.log("来自页面内转发按钮");
       console.log(res.target);
       wx.request({
-        url: app.globalData.myApiUrl + 'hishelp/add?id=' + wx.getStorageSync("userInfo").id + '&count=2',
+        url: app.globalData.myApiUrl + 'hishelp/add?id=' + wx.getStorageSync("userInfo").id + '&type=3',
         method: 'GET',
         success(res) {
           console.log(res.data);
@@ -72,13 +122,13 @@ Page({
           var data = res.data;
           if (data.data != null && data.data.code >= 0) {
             wx.showToast({
-              title: '分享成功！',
+              title: '分享成功，增加2积分！',
               icon: 'none',
               duration: 2000
             })
             that.setData({
               point: point + 2,
-              shareCount: (shareCount>0)?1:(shareCount + 1),
+              shareCount: (shareCount > 0) ? 1 : (shareCount + 1),
             })
           }
         },
@@ -96,7 +146,7 @@ Page({
     return {
       title: '我发现了一个好用的抖音短视频去水印工具',
       path: '/pages/index/index',
-      success: function (res) {
+      success: function(res) {
         console.log('成功', res)
       }
     }
@@ -105,8 +155,9 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function() {
 
+    
   },
 
   /**
