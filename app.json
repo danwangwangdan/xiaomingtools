@@ -26,7 +26,6 @@
         "iconPath": "pics/tab_home.png",
         "selectedIconPath": "pics/tab_home_fill.png"
       },
-     
       {
         "pagePath": "pages/me/me",
         "text": "个人中心",

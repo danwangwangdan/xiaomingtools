@@ -15,17 +15,27 @@ Page({
   toSign: function(options) {
     console.log("签到");
     wx.request({
-      url: app.globalData.myApiUrl + 'hishelp/add?url=' + encodeURIComponent(vedioUrl),
+      url: app.globalData.myApiUrl + 'hishelp/add?id=' + wx.getStorageSync("userInfo").id + '&count=1',
       method: 'GET',
       success(res) {
         console.log(res.data);
         wx.hideLoading();
         var data = res.data;
-        if (data.data != null && data.data.url != '') {
+        if (data.data != null && data.data.code >= 0) {
+          wx.showToast({
+            title: ' 签到成功！',
+            icon: 'none',
+            duration: 2000
+          })
           that.setData({
-            realUrl: data.data.url,
-            isSaveShow: true,
-            isVedioShow: true
+            point: point + 1,
+            signCount: signCount + 1,
+          })
+        } else if (data.data != null && data.data.code == -102) {
+          wx.showToast({
+            title: ' 您今天已经签过到了，请明天再来！',
+            icon: 'none',
+            duration: 2000
           })
         }
       },
@@ -38,12 +48,60 @@ Page({
       }
     });
   },
+  
   toShare: function(options) {
     console.log("分享");
   },
   toVideo: function(options) {
     console.log("视频");
   },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+    if (res.from === 'button') {
+      console.log("来自页面内转发按钮");
+      console.log(res.target);
+      wx.request({
+        url: app.globalData.myApiUrl + 'hishelp/add?id=' + wx.getStorageSync("userInfo").id + '&count=2',
+        method: 'GET',
+        success(res) {
+          console.log(res.data);
+          wx.hideLoading();
+          var data = res.data;
+          if (data.data != null && data.data.code >= 0) {
+            wx.showToast({
+              title: '分享成功！',
+              icon: 'none',
+              duration: 2000
+            })
+            that.setData({
+              point: point + 2,
+              shareCount: (shareCount>0)?1:(shareCount + 1),
+            })
+          }
+        },
+        fail() {
+          wx.showToast({
+            title: '网络请求失败，请稍后重试！',
+            icon: 'none',
+            duration: 3000
+          })
+        }
+      });
+    } else {
+      console.log("来自右上角转发菜单")
+    }
+    return {
+      title: '我发现了一个好用的抖音短视频去水印工具',
+      path: '/pages/index/index',
+      success: function (res) {
+        console.log('成功', res)
+      }
+    }
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -93,10 +151,4 @@ Page({
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-
-  }
 })

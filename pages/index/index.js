@@ -58,23 +58,69 @@ Page({
   toDecode: function() {
     var that = this;
     console.log(that.data.url)
-    if (that.data.url.indexOf('http') > -1) {
-      if (that.data.url.indexOf('weishi') > -1) {
-        wx.navigateTo({
-          url: '/pages/save/save?url=' + encodeURIComponent(that.data.url)
-        });
+    if (wx.getStorageSync("userInfo") == undefined || wx.getStorageSync("userInfo") == "") {
+      wx.showModal({
+        title: '未登录',
+        content: '必须登录后才能使用，点击确定后授权微信登录',
+        success: function(res) {
+          if (res.confirm) {
+            wx.login({
+              success(res) {
+                if (res.code) {
+                  //发起网络请求
+                  wx.request({
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
+                    method: 'GET',
+                    success(res) {
+                      console.log(res.data);
+                      wx.hideLoading();
+                      var userInfo = res.data.data;
+                      if (userInfo != null) {
+                        wx.showToast({
+                          title: '登录成功！',
+                          icon: 'none',
+                          duration: 3000
+                        })
+                        wx.setStorageSync("userInfo", userInfo);
+                        that.onLoad();
+                      }
+                    },
+                    fail() {
+                      wx.showToast({
+                        title: '网络请求失败，请稍后重试！',
+                        icon: 'none',
+                        duration: 3000
+                      })
+                    }
+                  })
+                } else {
+                  console.log('登录失败！' + res.errMsg)
+                }
+              }
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      });
+    } else { // 已登录
+      if (that.data.url.indexOf('http') > -1) {
+        if (that.data.url.indexOf('weishi') > -1) {
+          wx.navigateTo({
+            url: '/pages/save/save?url=' + encodeURIComponent(that.data.url)
+          });
+        } else {
+          wx.navigateTo({
+            url: '/pages/save/save?url=' + that.data.url
+          });
+        }
       } else {
-        wx.navigateTo({
-          url: '/pages/save/save?url=' + that.data.url
-        });
+        wx.showToast({
+          title: '要输入正确的链接呀！',
+          icon: 'none',
+          duration: 3000
+        })
       }
-
-    } else {
-      wx.showToast({
-        title: '要输入正确的链接呀！',
-        icon: 'none',
-        duration: 3000
-      })
     }
   },
   bindUrlClear: function() {
@@ -83,7 +129,7 @@ Page({
       isTextNull: 0
     })
   },
-  bindTest: function () {
+  bindTest: function() {
     this.setData({
       url: 'http://v.douyin.com/Mw5coA/',
       isTextNull: 1
@@ -150,37 +196,62 @@ Page({
       interstitialAd.onLoad(() => {})
       interstitialAd.onError((err) => {})
       interstitialAd.onClose(() => {})
+    };
+    if (wx.getStorageSync("userInfo") == undefined || wx.getStorageSync("userInfo") == "") {
+      //未登录，请前去登录
+      wx.showModal({
+        title: '您尚未登录',
+        content: '必须登录后才能使用，点击确定后授权微信登录',
+        success: function(res) {
+          if (res.confirm) {
+            wx.login({
+              success(res) {
+                if (res.code) {
+                  //发起网络请求
+                  wx.request({
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
+                    method: 'GET',
+                    success(res) {
+                      console.log(res.data);
+                      wx.hideLoading();
+                      var userInfo = res.data.data;
+                      if (userInfo != null) {
+                        wx.showToast({
+                          title: '登录成功！',
+                          icon: 'none',
+                          duration: 3000
+                        })
+                        wx.setStorageSync("userInfo", userInfo);
+                      }
+                    },
+                    fail() {
+                      wx.showToast({
+                        title: '网络请求失败，请稍后重试！',
+                        icon: 'none',
+                        duration: 3000
+                      })
+                    }
+                  })
+                } else {
+                  console.log('登录失败！' + res.errMsg)
+                }
+              }
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      });
     }
+
   },
   onShow: function() {
     var that = this;
-
     if (interstitialAd) {
       interstitialAd.show().catch((err) => {
         console.error(err)
       })
     }
-
-    wx.request({
-      url: 'https://loveshiming.oicp.vip/hishelp/common/dystatus',
-      method: 'GET',
-      success(res) {
-        console.log(res.data);
-        if (res.data != null && res.data.data != null) {
-          that.setData({
-            status: res.data.data.noticeText == '' ? '抖音正常 快手正常 火山正常' : res.data.data.noticeText
-          })
-        }
-      },
-      fail() {
-        $stopWuxRefresher() //停止下拉刷新
-        wx.showToast({
-          title: '网络请求失败，请稍后重试！',
-          icon: 'none',
-          duration: 3000
-        })
-      }
-    });
     wx.getClipboardData({
       success(res) {
         var lastUrl = wx.getStorageSync('lastUrl');
@@ -202,18 +273,55 @@ Page({
         }
       }
     })
+    wx.request({
+      url: app.globalData.myApiUrl + 'hishelp/shuiyin/find?id=' + wx.getStorageSync("userInfo").id,
+      method: 'GET',
+      success(res) {
+        console.log(res.data);
+        wx.hideLoading();
+        var userInfo = res.data.data;
+        if (userInfo != null) {
+          wx.showToast({
+            title: '登录成功！',
+            icon: 'none',
+            duration: 3000
+          })
+          wx.setStorageSync("userInfo", userInfo);
+        }
+      },
+      fail() {
+        wx.showToast({
+          title: '网络请求失败，请稍后重试！',
+          icon: 'none',
+          duration: 3000
+        })
+      }
+    })
+    wx.request({
+      url: 'https://loveshiming.oicp.vip/hishelp/common/dystatus',
+      method: 'GET',
+      success(res) {
+        console.log(res.data);
+        if (res.data != null && res.data.data != null) {
+          that.setData({
+            status: res.data.data.noticeText == '' ? '抖音正常 快手正常 火山正常' : res.data.data.noticeText
+          })
+        }
+      },
+      fail() {
+        $stopWuxRefresher() //停止下拉刷新
+        wx.showToast({
+          title: '网络请求失败，请稍后重试！',
+          icon: 'none',
+          duration: 3000
+        })
+      }
+    });
+
+
   },
   //转发
   onShareAppMessage: function(res) {
-    if (res.from === 'button') {
-
-    }
-    return {
-      title: '我发现了一个好用的抖音短视频去水印工具',
-      path: '/pages/index/index',
-      success: function(res) {
-        console.log('成功', res)
-      }
-    }
+    
   }
 })
