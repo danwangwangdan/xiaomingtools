@@ -1,4 +1,4 @@
-const app = getApp()
+ const app = getApp()
 // let videoAd = null
 Page({
   data: {
@@ -36,6 +36,7 @@ Page({
     })
   },
   toSave: function() {
+    var that = this;
     // if (videoAd) {
     //   videoAd.show().catch(() => {
     //     // 失败重试
@@ -51,84 +52,85 @@ Page({
     //     if (res && res.isEnded) {
     // 正常播放结束，可以下发游戏奖励
     wx.request({
-      url: app.globalData.myApiUrl + 'hishelp/take?id=' + wx.getStorageSync("userInfo").id,
+      url: app.globalData.myApiUrl + 'hishelp/shuiyin/take?id=' + wx.getStorageSync("userInfo").id,
       method: 'GET',
       success(res) {
         console.log(res.data);
         wx.hideLoading();
         var data = res.data;
-        if (data.data != null) {
-          if (data.data.code >= 0) {
-            // 扣除积分，积分不够则提醒
-            wx.showToast({
-              title: '已扣除2积分， 开始存至相册！',
-              icon: 'none',
-              duration: 2000
-            })
-            var that = this;
-            wx.authorize({
-              scope: "scope.writePhotosAlbum"
-            })
-            that.setData({
-              isSaveBtnLoad: true,
-              isSaveBtnDis: true
-            })
-            const downloadTask = wx.downloadFile({
-              url: that.data.realUrl,
-              success(res) {
-                console.log("开始下载...")
-                console.log(res)
-                if (res.statusCode === 200) {
-                  wx.saveVideoToPhotosAlbum({
-                    filePath: res.tempFilePath,
-                    success(res) {
-                      console.log(res)
-                      wx.showToast({
-                        title: '保存成功，请去系统相册查看！',
-                        icon: 'none',
-                        duration: 3000
-                      })
-                    }
-                  })
-                } else {
-                  wx.showToast({
-                    title: '连接服务器失败，请联系客服！',
-                    icon: 'none',
-                    duration: 3000
-                  })
-                }
-              }
-            });
-            downloadTask.onProgressUpdate((res) => {
-              console.log('下载进度', res)
-              that.setData({
-                saveBtnText: '存至相册中' + res.progress + '%...'
-              });
-              if (res.progress === 100) {
-                that.setData({
-                  isSaveBtnLoad: false,
-                  isSaveBtnDis: false,
-                  saveBtnText: '存至相册'
+
+        if (data.code >= 0) {
+          console.log("积分扣除");
+          // 扣除积分，积分不够则提醒
+          wx.showToast({
+            title: '已扣除2积分， 开始存至相册！',
+            icon: 'none',
+            duration: 2000
+          })
+
+          wx.authorize({
+            scope: "scope.writePhotosAlbum"
+          })
+          that.setData({
+            isSaveBtnLoad: true,
+            isSaveBtnDis: true
+          })
+          const downloadTask = wx.downloadFile({
+            url: that.data.realUrl,
+            success(res) {
+              console.log("开始下载...")
+              console.log(res)
+              if (res.statusCode === 200) {
+                wx.saveVideoToPhotosAlbum({
+                  filePath: res.tempFilePath,
+                  success(res) {
+                    console.log(res)
+                    wx.showToast({
+                      title: '保存成功，请去系统相册查看！',
+                      icon: 'none',
+                      duration: 3000
+                    })
+                  }
+                })
+              } else {
+                wx.showToast({
+                  title: '连接服务器失败，请联系客服！',
+                  icon: 'none',
+                  duration: 3000
                 })
               }
-            })
-          } else if (data.data.code = -101) {
-            wx.showModal({
-              title: '积分不足2分',
-              content: '先去个人中心完成简单的任务增加积分哦',
-              success: function(res) {
-                if (res.confirm) {
-                  wx.navigateTo({
-                    url: '/pages/me/me'
-                  });
-                } else if (res.cancel) {
-                  console.log('用户点击取消')
-                }
-              }
+            }
+          });
+          downloadTask.onProgressUpdate((res) => {
+            console.log('下载进度', res)
+            that.setData({
+              saveBtnText: '存至相册中' + res.progress + '%...'
             });
-          }
+            if (res.progress === 100) {
+              that.setData({
+                isSaveBtnLoad: false,
+                isSaveBtnDis: false,
+                saveBtnText: '存至相册，2积分/次'
+              })
+            }
+          })
+        } else if (data.code = -101) {
+          wx.showModal({
+            title: '积分不足2分',
+            content: '先去个人中心完成简单的任务增加积分哦',
+            success: function(res) {
+              if (res.confirm) {
+                wx.switchTab({
+                  url: '/pages/me/me'
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          });
         }
       }
+
     });
   },
   onLoad: function(options) {
@@ -277,60 +279,9 @@ Page({
           })
         }
       });
-    } else if (decodeURIComponent(vedioUrl).indexOf('weishi') > -1) {
-      wx.showLoading({
-        icon: 'none',
-        title: '解析视频中...',
-      })
-      console.log(decodeURIComponent(vedioUrl).indexOf("&reqseq"));
-      vedioUrl = decodeURIComponent(vedioUrl).substring(0, decodeURIComponent(vedioUrl).indexOf("&reqseq"));
-      console.log("weishi：" + vedioUrl);
-      wx.request({
-        url: app.globalData.localApiUrl + 'video/weishi?url=' + encodeURIComponent(vedioUrl),
-        method: 'GET',
-        success(res) {
-          console.log(res.data);
-          wx.hideLoading();
-          if (res.data != null && res.data.code == 0) {
-            var data = res.data;
-            if (data.data != null && data.data.url != '') {
-              that.setData({
-                realUrl: data.data.url,
-                isSaveShow: true,
-                isVedioShow: true
-              })
-              wx.showToast({
-                title: '解析成功，您可以直接存至相册了！',
-                icon: 'none',
-                duration: 3000
-              })
-            } else {
-              wx.showToast({
-                title: '解析失败，请检查链接或联系客服处理！',
-                icon: 'none',
-                duration: 3000
-              })
-            }
-          } else {
-            wx.showToast({
-              title: '解析失败，请检查链接或联系客服处理！',
-              icon: 'none',
-              duration: 3000
-            })
-          }
-        },
-        fail() {
-          $stopWuxRefresher() //停止下拉刷新
-          wx.showToast({
-            title: '网络请求失败，请稍后重试！',
-            icon: 'none',
-            duration: 3000
-          })
-        }
-      });
     } else {
       wx.showToast({
-        title: '链接不见了！',
+        title: '不支持的链接！',
         icon: 'none',
         duration: 3000
       })

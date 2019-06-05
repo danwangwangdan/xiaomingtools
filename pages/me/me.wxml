@@ -1,11 +1,12 @@
 <view class="container">
   <view class="user flex-wrp">
     <view class="avatar flex-item">
-      <image class="userinfo-avatar" src="{{imgSrc}}" background-size="cover"></image>
+      <open-data  wx:if="{{isLogin==1}}" class="userinfo-avatar" type="userAvatarUrl"></open-data>
     </view>
     <view class="user-info flex-item">
-      <text class="userinfo-nickname">{{nickname}}</text>
-      <text decode="{{true}}" class="edit">积分： {{point}}&ensp;&ensp;下载1次需要2积分。</text>
+      <open-data  wx:if="{{isLogin==1}}" class="userinfo-nickname" type="userNickName"></open-data>
+       <text wx:if="{{isLogin==0}}" class="userinfo-nickname">未登录</text>
+      <text  wx:if="{{isLogin==1}}" decode="{{true}}" class="edit">积分： {{point}}&ensp;&ensp;下载1次需要2积分。</text>
     </view>
   </view>
 </view>
@@ -13,7 +14,7 @@
 <view style="margin-top:25rpx">
   <wux-button block bordered="false" size="default" bind:click="toVideo" type="stable ">
     <wux-wing-blank size="default">
-      <wux-card title=" 观看视频，2积分/次" thumb="../../../pics/video.png" extra="">
+      <wux-card title=" 观看视频，+2积分/次" thumb="../../../pics/video.png" extra="">
         <view slot="body">每日上限8次。点击该卡片即可播放</view>
         <view slot="footer">{{videoCount}}/8</view>
       </wux-card>
@@ -21,18 +22,11 @@
   </wux-button>
 </view>
 <view style="margin-top:25rpx">
-  <wux-button block bordered="false" size="default" openType='share' bind:click="toShare" type="stable ">
-    <wux-wing-blank size="default">
-      <wux-card title=" 每日分享，2积分/次" thumb="../../../pics/share.png" extra="">
-        <view slot="body">每日上限1次。点击该卡片即可分享</view>
-        <view slot="footer">{{shareCount}}/1</view>
-      </wux-card>
-    </wux-wing-blank>
-  </wux-button>
+
   <view style="margin-top:25rpx;margin-bottom:50rpx">
     <wux-button block bordered="false" size="default" bind:click="toSign" type="stable ">
       <wux-wing-blank size="default" bindtap="toSign">
-        <wux-card title=" 每日签到，1积分/次" thumb="../../../pics/sign.png" extra="">
+        <wux-card title=" 每日签到，+1积分/次" thumb="../../../pics/sign.png" extra="">
           <view slot="body">每日上限1次。点击该卡片即可签到</view>
           <view slot="footer">{{signCount}}/1</view>
         </wux-card>

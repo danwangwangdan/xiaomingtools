@@ -34,8 +34,8 @@
         <wux-col span="2">
         </wux-col>
         <wux-col span="5">
-          <wux-button block size="default " outline bind:click="bindTest" type="balanced ">
-            <wux-icon type="ios-paw" size="16 " /> 测试连接</wux-button>
+         <wux-button block size="default " outline openType='share' type="balanced ">
+      <wux-icon type="md-share " size="16 " /> 分享软件</wux-button>
         </wux-col>
       </wux-row>
     </view>

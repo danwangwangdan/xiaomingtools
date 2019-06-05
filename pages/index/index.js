@@ -99,26 +99,31 @@ Page({
               }
             })
           } else if (res.cancel) {
-            console.log('用户点击取消')
+            wx.showToast({
+              title: '未登录将无法使用本程序！',
+              icon: 'none',
+              duration: 2000
+            })
           }
         }
       });
     } else { // 已登录
-      if (wx.getStorageSync("userInfo").point < 2) {
-        wx.showModal({
-          title: '积分不足2分',
-          content: '先去个人中心完成简单的任务增加积分哦',
-          success: function(res) {
-            if (res.confirm) {
-              wx.navigateTo({
-                url: '/pages/me/me'
-              });
-            } else if (res.cancel) {
-              console.log('用户点击取消')
-            }
-          }
-        });
-      } else {
+     
+      // if (wx.getStorageSync("userInfo").point < 2) {
+      //   wx.showModal({
+      //     title: '积分不足2分',
+      //     content: '先去个人中心完成简单的任务增加积分哦',
+      //     success: function(res) {
+      //       if (res.confirm) {
+      //         wx.switchTab({
+      //           url: '/pages/me/me'
+      //         })
+      //       } else if (res.cancel) {
+             
+      //       }
+      //     }
+      //   });
+      // } else {
         if (that.data.url.indexOf('http') > -1) {
           if (that.data.url.indexOf('weishi') > -1) {
             wx.navigateTo({
@@ -136,7 +141,7 @@ Page({
             duration: 3000
           })
         }
-      }
+      // }
     }
   },
   bindUrlClear: function() {
@@ -254,7 +259,11 @@ Page({
               }
             })
           } else if (res.cancel) {
-            console.log('用户点击取消')
+            wx.showToast({
+              title: '未登录将无法使用本程序！',
+              icon: 'none',
+              duration: 2000
+            })
           }
         }
       });

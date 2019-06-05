@@ -13,7 +13,7 @@
   </swiper> -->
 </view>
 <view style='margin-top:40rpx;margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert theme="stable" title="小提示:" label="只有解析成功，才会出现存至相册的按钮，耗时由您的网络状态而定，您可以先去忙其他事。如果解析失败，请稍后重试或请联系客服处理！" />
+  <wux-alert theme="stable" title="小提示:" label="只有解析成功，才会出现存至相册的按钮，耗时由您的网络状态而定，您可以先去忙其他事。如果解析失败，请稍后重试或联系客服处理！" />
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
     <wux-button loading="{{isSaveBtnLoad}}" disabled="{{isSaveBtnDis}}" wx:if="{{isSaveShow}}" block size="default" bind:click="toSave" type="balanced">
       <wux-icon type="ios-download" size="16" /> {{saveBtnText}}</wux-button>

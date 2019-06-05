@@ -33,5 +33,6 @@
         "selectedIconPath": "pics/tab_people_fill.png"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
