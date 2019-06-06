@@ -109,21 +109,21 @@ Page({
       });
     } else { // 已登录
      
-      // if (wx.getStorageSync("userInfo").point < 2) {
-      //   wx.showModal({
-      //     title: '积分不足2分',
-      //     content: '先去个人中心完成简单的任务增加积分哦',
-      //     success: function(res) {
-      //       if (res.confirm) {
-      //         wx.switchTab({
-      //           url: '/pages/me/me'
-      //         })
-      //       } else if (res.cancel) {
+      if (wx.getStorageSync("userInfo").point < 2) {
+        wx.showModal({
+          title: '积分不足2分',
+          content: '解析不扣除积分，但先去个人中心完成简单的任务增加积分哦',
+          success: function(res) {
+            if (res.confirm) {
+              wx.switchTab({
+                url: '/pages/me/me'
+              })
+            } else if (res.cancel) {
              
-      //       }
-      //     }
-      //   });
-      // } else {
+            }
+          }
+        });
+      } else {
         if (that.data.url.indexOf('http') > -1) {
           if (that.data.url.indexOf('weishi') > -1) {
             wx.navigateTo({
@@ -141,7 +141,7 @@ Page({
             duration: 3000
           })
         }
-      // }
+      }
     }
   },
   bindUrlClear: function() {

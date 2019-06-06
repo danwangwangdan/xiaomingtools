@@ -66,8 +66,8 @@ Page({
   toVideo: function(options) {
     console.log("视频");
     var that = this;
-    var currPoint = that.data.point;
-    var currVideoCount = that.data.videoCount;
+
+
     if (videoAd) {
       videoAd.show().catch(() => {
         // 失败重试
@@ -77,52 +77,7 @@ Page({
             console.log('激励视频 广告显示失败')
           })
       })
-      videoAd.onClose(res => {
-        // 用户点击了【关闭广告】按钮
-        if (res && res.isEnded) {
-          // 正常播放结束，可以下发游戏奖励
-          console.log("广告播放完毕");
-          wx.request({
-            url: app.globalData.myApiUrl + 'hishelp/shuiyin/add?id=' + wx.getStorageSync("userInfo").id + '&type=1',
-            method: 'GET',
-            success(res) {
-              console.log(res.data);
-              wx.hideLoading();
-              var data = res.data;
-              if (data.code >= 0) {
-                wx.showToast({
-                  title: '观看成功，增加2积分！',
-                  icon: 'none',
-                  duration: 2000
-                })
-                that.setData({
-                  point: currPoint + 2,
-                  videoCount: (currVideoCount > 7) ? 1 : (currVideoCount + 1),
-                })
-              } else if (data.code == -101) {
-                wx.showToast({
-                  title: ' 您今天的观看次数已达上限，请明天再来！',
-                  icon: 'none',
-                  duration: 2000
-                })
-              }
-            },
-            fail() {
-              wx.showToast({
-                title: '网络请求失败，请稍后重试！',
-                icon: 'none',
-                duration: 3000
-              })
-            }
-          });
-        } else {
-          wx.showToast({
-            title: '观看完广告才有积分奖励，谢谢支持！',
-            icon: 'none',
-            duration: 3000
-          })
-        }
-      });
+
 
 
     }
@@ -184,6 +139,7 @@ Page({
   onLoad: function() {
 
     var that = this;
+
     if (wx.createRewardedVideoAd) {
       videoAd = wx.createRewardedVideoAd({
         adUnitId: 'adunit-498062c378a63ba4'
@@ -195,7 +151,60 @@ Page({
           icon: 'none',
           duration: 2000
         })
-      })
+      });
+      videoAd.onClose(res => {
+        var currPoint = that.data.point;
+        var currVideoCount = that.data.videoCount;
+        // 用户点击了【关闭广告】按钮
+        if (res && res.isEnded) {
+          // 正常播放结束，可以下发游戏奖励
+          console.log("广告播放完毕");
+
+          wx.request({
+            url: app.globalData.myApiUrl + 'hishelp/shuiyin/add?id=' + wx.getStorageSync("userInfo").id + '&type=1',
+            method: 'GET',
+            success(res) {
+              console.log(res.data);
+              wx.hideLoading();
+              var data = res.data;
+              if (data.code >= 0) {
+                wx.showToast({
+                  title: '观看成功，增加2积分！',
+                  icon: 'none',
+                  duration: 2000
+                });
+                videoAd = wx.createRewardedVideoAd({
+                  adUnitId: 'adunit-498062c378a63ba4'
+                })
+                that.setData({
+                  point: currPoint + 2,
+                  videoCount: currVideoCount + 1,
+                })
+              } else if (data.code == -101) {
+
+                wx.showToast({
+                  title: ' 您今天的观看次数已达上限，请明天再来！',
+                  icon: 'none',
+                  duration: 2000
+                })
+              }
+            },
+            fail() {
+              wx.showToast({
+                title: '网络请求失败，请稍后重试！',
+                icon: 'none',
+                duration: 3000
+              })
+            }
+          });
+        } else {
+          wx.showToast({
+            title: '观看完广告才有积分奖励，谢谢支持！',
+            icon: 'none',
+            duration: 3000
+          })
+        }
+      });
     }
     if (wx.getStorageSync("userInfo") == undefined || wx.getStorageSync("userInfo") == "") {
       //未登录，请前去登录
