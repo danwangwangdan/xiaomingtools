@@ -7,7 +7,7 @@
     "wux-row": "../../plugins/wux/row/index",
     "wux-col": "../../plugins/wux/col/index",
     "wux-avatar": "../../plugins/wux/avatar/index",
-    "wux-notice-bar": "../../plugins/wux/wing-blank/index",
+    "wux-notice-bar": "../../plugins/wux/notice-bar/index",
     "wux-white-space": "../../plugins/wux/white-space/index",
     "wux-button": "../../plugins/wux/button/index",
     "wux-icon": "../../plugins/wux/icon/index",

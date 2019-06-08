@@ -3,6 +3,7 @@
     "wux-card": "../../plugins/wux/card/index",
     "wux-button": "../../plugins/wux/button/index",
     "wux-icon": "../../plugins/wux/icon/index",
+    "wux-notice-bar": "../../plugins/wux/notice-bar/index",
     "wux-wing-blank": "../../plugins/wux/wing-blank/index"
   },
   "navigationBarTitleText": "个人中心"
