@@ -180,13 +180,6 @@ Page({
                   point: currPoint + 2,
                   videoCount: currVideoCount + 1,
                 })
-              } else if (data.code == -101) {
-
-                wx.showToast({
-                  title: ' 您今天的观看次数已达上限，请明天再来！',
-                  icon: 'none',
-                  duration: 2000
-                })
               }
             },
             fail() {
