@@ -17,8 +17,8 @@
 <view style="margin-top:20rpx">
   <wux-button block bordered="false" size="default" bind:click="toVideo" type="stable ">
     <wux-wing-blank size="default">
-      <wux-card title=" 观看视频，+2积分/次" thumb="../../../pics/video.png" extra="">
-        <view slot="body">无上限。点击该卡片即可播放</view>
+      <wux-card title=" 观看视频，+3积分/次" thumb="../../../pics/video.png" extra="">
+        <view slot="body">无上限次数。点击该卡片即可播放</view>
         <view slot="footer">{{videoCount}}/∞ </view>
       </wux-card>
     </wux-wing-blank>
