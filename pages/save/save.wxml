@@ -13,15 +13,16 @@
   </swiper> -->
 </view>
 <view style='margin-top:40rpx;margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert theme="stable" title="小提示:" label="只有解析成功，才会出现存至相册的按钮，耗时由您的网络状态而定，您可以先去忙其他事。如果解析失败，请稍后重试或联系客服处理！" />
+  <wux-alert theme="stable" title="小提示:" label="只有解析成功，才会出现存至相册的按钮，安卓手机保存路径为tencent-microMsg-weixin-video。视频太大会保存失败，请复制链接到第三方浏览器中下载。" />
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
     <wux-button loading="{{isSaveBtnLoad}}" disabled="{{isSaveBtnDis}}" wx:if="{{isSaveShow}}" block size="default" bind:click="toSave" type="balanced">
       <wux-icon type="ios-download" size="16" /> {{saveBtnText}}</wux-button>
-  
+   <wux-button block wx:if="{{isCopyShow}}" bind:click="toCopy" size="default" outline  type="balanced">
+      <wux-icon type="ios-copy" size="16" /> 复制下载链接</wux-button>
     <wux-button block size="default" outline openType="contact" type="balanced">
       <wux-icon type="ios-chatbubbles" size="16" /> 联系客服</wux-button>
-        <wux-button block size="default " outline bind:click="bindCash" type="balanced ">
-      <wux-icon type="ios-timer" size="16 " /> 打赏作者给服务器提速</wux-button>
+        <!-- <wux-button block size="default " outline bind:click="bindCash" type="balanced ">
+      <wux-icon type="ios-timer" size="16 " /> 打赏作者给服务器提速</wux-button> -->
     <video wx:if="{{isVedioShow}}" show-mute-btn id="myVideo" src="{{realUrl}}" controls></video>
   </view>
 </view>

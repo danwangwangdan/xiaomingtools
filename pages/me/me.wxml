@@ -12,12 +12,12 @@
 </view>
 <ad unit-id="adunit-5dec35ad334a4ca8"></ad>
 <view style="margin-top:20rpx">
-  <wux-notice-bar controlled content="可以联系客服开通无限积分。" />
+  <wux-notice-bar controlled content="开通无限积分、根据抖音号批量解析请联系客服。" />
 </view>
 <view style="margin-top:20rpx">
   <wux-button block bordered="false" size="default" bind:click="toVideo" type="stable ">
     <wux-wing-blank size="default">
-      <wux-card title=" 观看视频，+3积分/次" thumb="../../../pics/video.png" extra="">
+      <wux-card title=" 观看视频，+5积分/次" thumb="../../../pics/video.png" extra="">
         <view slot="body">无上限次数。点击该卡片即可播放</view>
         <view slot="footer">{{videoCount}}/∞ </view>
       </wux-card>

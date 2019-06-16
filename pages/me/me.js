@@ -169,7 +169,7 @@ Page({
               var data = res.data;
               if (data.code >= 0) {
                 wx.showToast({
-                  title: '观看成功，增加3积分！',
+                  title: '观看成功，增加5积分！',
                   icon: 'none',
                   duration: 2000
                 });
@@ -177,7 +177,7 @@ Page({
                   adUnitId: 'adunit-498062c378a63ba4'
                 })
                 that.setData({
-                  point: currPoint + 3,
+                  point: currPoint + 5,
                   videoCount: currVideoCount + 1,
                 })
               }

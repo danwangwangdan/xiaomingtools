@@ -108,7 +108,7 @@ Page({
         }
       });
     } else { // 已登录
-     
+
       if (wx.getStorageSync("userInfo").point < 2) {
         wx.showModal({
           title: '积分不足2分',
@@ -119,21 +119,24 @@ Page({
                 url: '/pages/me/me'
               })
             } else if (res.cancel) {
-             
+
             }
           }
         });
       } else {
         if (that.data.url.indexOf('http') > -1) {
-          if (that.data.url.indexOf('weishi') > -1) {
-            wx.navigateTo({
-              url: '/pages/save/save?url=' + encodeURIComponent(that.data.url)
+          wx.navigateTo({
+              url: '/pages/save/save?url=' + that.httpString(that.data.url)
             });
-          } else {
-            wx.navigateTo({
-              url: '/pages/save/save?url=' + that.data.url
-            });
-          }
+          // if (that.data.url.indexOf('weishi') > -1) {
+          //   wx.navigateTo({
+          //     url: '/pages/save/save?url=' + encodeURIComponent(that.data.url)
+          //   });
+          // } else {
+          //   wx.navigateTo({
+          //     url: '/pages/save/save?url=' + that.data.url
+          //   });
+          // }
         } else {
           wx.showToast({
             title: '要输入正确的链接呀！',
@@ -210,6 +213,7 @@ Page({
     })
   },
   onLoad: function() {
+
     if (wx.createInterstitialAd) {
       interstitialAd = wx.createInterstitialAd({
         adUnitId: 'adunit-e7d9cd4b1f5a4c00'
@@ -267,6 +271,10 @@ Page({
           }
         }
       });
+    } else {
+      wx.authorize({
+        scope: "scope.writePhotosAlbum"
+      })
     }
 
   },
@@ -343,5 +351,12 @@ Page({
   //转发
   onShareAppMessage: function(res) {
 
+  },
+
+  httpString: function(s) {
+    var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+    var reg = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+    s = s.match(reg);
+    return (s)
   }
 })

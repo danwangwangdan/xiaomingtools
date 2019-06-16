@@ -13,7 +13,7 @@
   </swiper> -->
   <ad unit-id="adunit-5dec35ad334a4ca8"></ad>
 </view>
-<wux-notice-bar controlled content="需要根据作者抖音号批量解析的请咨询客服！" />
+<wux-notice-bar controlled content="服务器已全面升级，快来体验飞一般的速度吧！" />
 <view style='margin-top:20rpx;margin-left:40rpx;margin-right:40rpx;'>
   <wux-alert bind:click="showPic" theme="stable" title="正确食用方式:（暂不支持从相册上传）" label="去短视频APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后保存到相册 -> 开心的时候多点击广告支持作者！" />
   <wux-cell-group controlled title="链接支持：{{status}}">
