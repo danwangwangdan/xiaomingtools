@@ -24,6 +24,19 @@ Page({
       modalHidden: false
     })
   },
+  toCopyNo: function () {
+    console.log("toCopyNo");
+    wx.setClipboardData({
+      data: '863721730',
+      success: function (res) {
+        wx.showToast({
+          title: '复制群号码成功！',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+    })
+  },
   /**
    * 点击取消
    */
