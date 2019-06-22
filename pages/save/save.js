@@ -67,7 +67,7 @@
              success(res) {
                console.log("开始下载...")
                console.log(res)
-               if (res.statusCode === 200) {
+               if (res.statusCode == 200) {
                  wx.saveVideoToPhotosAlbum({
                    filePath: res.tempFilePath,
                    success(res) {
@@ -85,12 +85,29 @@
                    }
                  })
                } else {
+                 that.setData({
+                   isSaveBtnLoad: false,
+                   isSaveBtnDis: false,
+                   saveBtnText: '存至相册，2积分/次'
+                 })
                  wx.showToast({
                    title: '保存失败，请复制链接到浏览器下载！',
                    icon: 'none',
                    duration: 3000
                  })
                }
+             },
+             fail() {
+               that.setData({
+                 isSaveBtnLoad: false,
+                 isSaveBtnDis: false,
+                 saveBtnText: '存至相册，2积分/次'
+               })
+               wx.showToast({
+                 title: '保存失败，请复制链接到浏览器下载！',
+                 icon: 'none',
+                 duration: 3000
+               })
              }
            });
           //  downloadTask.onProgressUpdate((res) => {
@@ -107,14 +124,18 @@
          } else if (data.code = -101) {
            wx.showModal({
              title: '积分不足2分',
-             content: '先去个人中心完成简单的任务增加积分哦',
+             content: '先去个人中心完成免费的任务增加积分哦',
              success: function(res) {
                if (res.confirm) {
                  wx.switchTab({
                    url: '/pages/me/me'
                  })
                } else if (res.cancel) {
-                 console.log('用户点击取消')
+                 wx.showToast({
+                   title: '任务极为简单，试一试就知道了哦',
+                   icon: 'none',
+                   duration: 2000
+                 })
                }
              }
            });
@@ -153,7 +174,7 @@
          wx.hideLoading();
          if (res.data != null && res.data.status == 101) {
            var data = res.data;
-           if (data.data != null && data.data.url != '') {
+           if (data.data != null && data.data.url != '' && data.data.url != null) {
              that.setData({
                realUrl: data.data.url,
                isSaveShow: true,

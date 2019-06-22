@@ -24,11 +24,11 @@ Page({
       modalHidden: false
     })
   },
-  toCopyNo: function () {
+  toCopyNo: function() {
     console.log("toCopyNo");
     wx.setClipboardData({
       data: '863721730',
-      success: function (res) {
+      success: function(res) {
         wx.showToast({
           title: '复制群号码成功！',
           icon: 'none',
@@ -125,22 +125,26 @@ Page({
       if (wx.getStorageSync("userInfo").point < 2) {
         wx.showModal({
           title: '积分不足2分',
-          content: '解析不扣除积分，但先去个人中心完成简单的任务增加积分哦',
+          content: '解析不扣除积分，但先去个人中心完成免费的任务增加积分哦',
           success: function(res) {
             if (res.confirm) {
               wx.switchTab({
                 url: '/pages/me/me'
               })
             } else if (res.cancel) {
-
+              wx.showToast({
+                title: '任务极为简单，试一试就知道了哦',
+                icon: 'none',
+                duration: 2000
+              })
             }
           }
         });
       } else {
         if (that.data.url.indexOf('http') > -1) {
           wx.navigateTo({
-              url: '/pages/save/save?url=' + that.httpString(that.data.url)
-            });
+            url: '/pages/save/save?url=' + that.httpString(that.data.url)
+          });
           // if (that.data.url.indexOf('weishi') > -1) {
           //   wx.navigateTo({
           //     url: '/pages/save/save?url=' + encodeURIComponent(that.data.url)
