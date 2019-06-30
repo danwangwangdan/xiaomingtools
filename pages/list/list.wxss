@@ -1,0 +1,26 @@
+.u-wrp-bnr {
+  width: 100%;
+  height: 300rpx;
+  display: block;
+  bottom: 30rpx;
+  position: relative;
+  background: #f0f0f0;
+}
+
+.u-img-slide {
+  width: 100%;
+  height: inherit;
+}
+
+.video-list {
+  width: 300rpx;
+}
+.border {
+  border-radius:2%;
+  background:white;
+  margin:30rpx;
+  padding:10rpx;
+  border-style: solid;
+  box-shadow: 0px 2px 4px 2px #ddd;
+  border-width: 0rpx;
+}

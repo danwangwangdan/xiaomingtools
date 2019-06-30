@@ -1,0 +1,27 @@
+<view>
+  <ad unit-id="adunit-5dec35ad334a4ca8"></ad>
+</view>
+<view style='margin-top:40rpx;margin-left:40rpx;margin-right:40rpx;'>
+  <wux-alert theme="stable" title="小提示:" label="下载时间跟您的网络状况有关，请耐心等待。安卓手机保存路径为tencent-microMsg-weixin-video。视频太大会保存失败，请复制链接到第三方浏览器中下载。" />
+
+</view>
+<block wx:key="id" wx:for="{{videoList}}">
+  <view class="border">
+    <wux-row>
+      <wux-col span="4">
+        <video class="video-list" controls show-mute-btn id="myVideo" src="{{item.downloadUrl}}"></video>
+      </wux-col>
+      <wux-col span="2">
+      </wux-col>
+      <wux-col span="6">
+        <text style="font-size:35rpx">@{{item.username}}：{{item.desc}}</text>
+        <view style="margin:35rpx 10rpx 10rpx 0">
+          <wux-button data-url="{{item.downloadUrl}}"  wx:if="{{isSaveShow}}" block size="" bind:click="toSave" type="balanced">
+            <wux-icon type="ios-download" size="16" /> 存至相册</wux-button>
+          <wux-button block wx:if="{{isCopyShow}}" bind:click="toCopy" size="default" outline type="balanced">
+            <wux-icon type="ios-copy" size="16" /> 复制链接</wux-button>
+        </view>
+      </wux-col>
+    </wux-row>
+  </view>
+</block>

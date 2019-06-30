@@ -1,9 +1,10 @@
-
 {
   "pages": [
-    "pages/index/index",
+      "pages/index/index",
+    "pages/list/list",
+  
+    "pages/batch/batch",
     "pages/me/me",
-    "pages/hot/hot",
     "pages/save/save"
   ],
   "window": {
@@ -26,6 +27,12 @@
         "text": "首页",
         "iconPath": "pics/tab_home.png",
         "selectedIconPath": "pics/tab_home_fill.png"
+      },
+      {
+        "pagePath": "pages/batch/batch",
+        "text": "批量解析",
+        "iconPath": "pics/batch.png",
+        "selectedIconPath": "pics/batch_fill.png"
       },
       {
         "pagePath": "pages/me/me",

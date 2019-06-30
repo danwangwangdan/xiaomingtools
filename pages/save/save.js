@@ -166,7 +166,7 @@
        icon: 'none',
        title: '解析视频中...',
      })
-     if (vedioUrl.indexOf("tiktok")) {
+     if (vedioUrl.indexOf("tiktok")>0) {
        wx.request({
          url: 'https://www.daliandaxue.cn/douyin-1.0/video/tiktok?url=' + encodeURIComponent(vedioUrl),
          method: 'GET',

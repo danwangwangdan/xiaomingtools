@@ -13,7 +13,7 @@
   </swiper> -->
 </view>
 <view style='margin-top:40rpx;margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert theme="stable" title="小提示:" label="只有解析成功，才会出现存至相册的按钮，安卓手机保存路径为tencent-microMsg-weixin-video。视频太大会保存失败，请复制链接到第三方浏览器中下载。" />
+  <wux-alert theme="stable" title="小提示:" label="只有解析成功，才会出现存至相册的按钮，保存时间跟您的网络状况有关，请耐心等待。安卓手机保存路径为tencent-microMsg-weixin-video。视频太大会保存失败，请复制链接到第三方浏览器中下载。" />
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
     <wux-button loading="{{isSaveBtnLoad}}" disabled="{{isSaveBtnDis}}" wx:if="{{isSaveShow}}" block size="default" bind:click="toSave" type="balanced">
       <wux-icon type="ios-download" size="16" /> {{saveBtnText}}</wux-button>
