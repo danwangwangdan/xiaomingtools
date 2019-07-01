@@ -88,13 +88,24 @@ Page({
                       wx.hideLoading();
                       var userInfo = res.data.data;
                       if (userInfo != null) {
-                        wx.showToast({
-                          title: '登录成功！',
-                          icon: 'none',
-                          duration: 3000
-                        })
                         wx.setStorageSync("userInfo", userInfo);
-                        that.onLoad();
+                        wx.showModal({
+                          title: '登录成功',
+                          content: '新用户将赠送您10积分，积分不够了可以去个人中心完成简单的任务获取更多积分哦',
+                          success: function(res) {
+                            if (res.confirm) {
+                              wx.switchTab({
+                                url: '/pages/me/me'
+                              })
+                            } else if (res.cancel) {
+                              wx.showToast({
+                                title: '任务极为简单，试一试就知道了哦',
+                                icon: 'none',
+                                duration: 2000
+                              })
+                            }
+                          }
+                        });
                       }
                     },
                     fail() {
@@ -257,12 +268,25 @@ Page({
                       wx.hideLoading();
                       var userInfo = res.data.data;
                       if (userInfo != null) {
-                        wx.showToast({
-                          title: '登录成功！',
-                          icon: 'none',
-                          duration: 3000
-                        })
                         wx.setStorageSync("userInfo", userInfo);
+                        wx.showModal({
+                          title: '登录成功',
+                          content: '新用户将赠送您10积分，积分不够了可以去个人中心完成简单的任务获取更多积分哦',
+                          success: function(res) {
+                            if (res.confirm) {
+                              wx.switchTab({
+                                url: '/pages/me/me'
+                              })
+                            } else if (res.cancel) {
+                              wx.showToast({
+                                title: '任务极为简单，试一试就知道了哦',
+                                icon: 'none',
+                                duration: 2000
+                              })
+                            }
+                          }
+                        });
+
                       }
                     },
                     fail() {

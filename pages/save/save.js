@@ -50,18 +50,16 @@
          if (data.code >= 0) {
            console.log("积分扣除");
            // 扣除积分，积分不够则提醒
+           that.setData({
+             isSaveBtnLoad: true,
+             saveBtnText: '视频过大，请耐心等待哦...',
+             isSaveBtnDis: true
+           })
            wx.showToast({
              title: '已扣除2积分， 开始存至相册！',
              icon: 'none',
              duration: 2000
            })
-
-           that.setData({
-             isSaveBtnLoad: true,
-             saveBtnText: '存至相册中...',
-             isSaveBtnDis: true
-           })
-
            const downloadTask = wx.downloadFile({
              url: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
              success(res) {
@@ -97,6 +95,13 @@
                  })
                }
              },
+             complete() {
+               that.setData({
+                 isSaveBtnLoad: false,
+                 isSaveBtnDis: false,
+                 saveBtnText: '存至相册，2积分/次'
+               })
+             },
              fail() {
                that.setData({
                  isSaveBtnLoad: false,
@@ -110,17 +115,17 @@
                })
              }
            });
-           //  downloadTask.onProgressUpdate((res) => {
-           //    console.log('下载进度', res)
-
-           //    if (res.progress === 100) {
-           //      that.setData({
-           //        isSaveBtnLoad: false,
-           //        isSaveBtnDis: false,
-           //        saveBtnText: '存至相册，2积分/次'
-           //      })
-           //    }
-           //  })
+          //  downloadTask.onProgressUpdate((res) => {
+          //    console.log('下载进度', res)
+            
+          //    if (res.progress === 100) {
+          //      that.setData({
+          //        isSaveBtnLoad: false,
+          //        isSaveBtnDis: false,
+          //        saveBtnText: '存至相册，2积分/次'
+          //      })
+          //    }
+          //  })
          } else if (data.code = -101) {
            wx.showModal({
              title: '积分不足2分',
