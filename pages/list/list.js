@@ -132,9 +132,27 @@
    },
    toCopy: function() {
      var that = this;
+     wx.pageScrollTo({
+       scrollTop: 0 //设置滑动距离为0
+     })
      wx.setClipboardData({
        data: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
        success: function(res) {
+         wx.showToast({
+           title: '复制成功，请去第三方浏览器(如QQ/Alook等)打开下载！',
+           icon: 'none',
+           duration: 3000
+         })
+       }
+     })
+   },
+   toCopyAll: function () {
+     var that = this;
+      console.log(that.data.gifshowList);
+
+     wx.setClipboardData({
+       data: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
+       success: function (res) {
          wx.showToast({
            title: '复制成功，请去第三方浏览器(如QQ/Alook等)打开下载！',
            icon: 'none',
@@ -312,8 +330,8 @@
    },
    onLoad: function(options) {
 
-     var currentUrl = options.url;
-     // var currentUrl = 'http://m.gifshow.com/s/yn9qahlI'
+     //var currentUrl = options.url;
+      var currentUrl = 'http://m.gifshow.com/s/yn9qahlI'
 
      // console.log("options.url:" + currentUrl)
      var that = this;

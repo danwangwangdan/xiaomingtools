@@ -3,8 +3,10 @@
 </view>
 <view style='margin-top:40rpx;margin-left:40rpx;margin-right:40rpx;'>
   <wux-alert theme="stable" title="小提示:" label="解析失败、下载的视频提示不见了或全部有水印，请重新尝试解析。下载耗时跟您的网络状况有关，请耐心等待。安卓手机保存路径为tencent-microMsg-weixin-video。视频太大会保存失败，请复制链接到第三方浏览器中下载。" />
-
+  <wux-button block  bind:click="toCopyAll" size="default" outline type="balanced">
+  <wux-icon type="ios-copy" size="16" /> 复制该页面所有作品链接，50积分/次</wux-button>
 </view>
+
 <block wx:if="{{platform=='douyin'}}" wx:key="id" wx:for="{{videoList}}">
   <view class="border">
     <wux-row>
