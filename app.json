@@ -1,8 +1,7 @@
 {
   "pages": [
-      "pages/index/index",
+    "pages/index/index",
     "pages/list/list",
-  
     "pages/batch/batch",
     "pages/me/me",
     "pages/save/save"

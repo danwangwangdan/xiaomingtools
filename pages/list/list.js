@@ -12,6 +12,8 @@
      videoList: [],
      totalCount: 0,
      nextCursor: 0,
+     pCursor: '',
+     gifshowList: [],
      isSaveBtnLoad: false,
      isSaveBtnDis: false,
    },
@@ -148,19 +150,118 @@
      var that = this;
      console.log(that.data.hasMore);
      console.log(that.data.nextCursor)
-     if (that.data.hasMore && that.data.nextCursor != 0) {
-       if (that.data.platform == 'douyin') {
+     if (that.data.platform == 'douyin') {
+       if (that.data.hasMore && that.data.nextCursor != 0) {
          this.fetchDouyin(that.data.nextCursor)
-       } else if (that.data.platform == 'gifshow') {
-         this.fetchGifshow(that.data.nextCursor)
+       } else if ((!that.data.hasMore) || that.data.nextCursor) {
+         wx.showToast({
+           title: '已全部加载完毕！',
+           icon: 'none',
+           duration: 3000
+         })
        }
-     } else if (!that.data.hasMore) {
-       wx.showToast({
-         title: '已全部加载完毕！',
-         icon: 'none',
-         duration: 3000
-       })
+     } else if (that.data.platform == 'gifshow') {
+       if (that.data.pCursor != '' && that.data.pCursor != 'no_more') {
+         this.fetchGifshow(that.data.pCursor)
+       } else {
+         wx.showToast({
+           title: '已全部加载完毕！',
+           icon: 'none',
+           duration: 3000
+         })
+       }
      }
+   },
+   fetchGifshow: function(nextCursor) {
+     var that = this;
+     wx.showLoading({
+       icon: 'none',
+       title: '加载更多中 ...',
+     })
+     wx.request({
+       url: 'https://service.qushuiyin.club/vcap/video/parse?format=mini&userId=&target=kuaishou&shareUrl=' + encodeURIComponent(that.data.videoUrl),
+       method: 'GET',
+       success(res) {
+         console.log("gifshow");
+         console.log(res.data);
+        
+         if (res.data != null && res.data.status == 0) {
+           var userdata = res.data;
+           wx.request({
+             url: 'https://service.qushuiyin.club/vcap/video/list?format=mini&userId=' + userdata.id + '&target=kuaishou&cursor=' + that.data.pCursor + '&count=10&shareUrl=' + encodeURIComponent(that.data.videoUrl),
+             method: 'GET',
+             success(res) {
+               console.log("gifshowrequest");
+               console.log(res.data);
+               var postData = {
+                 values: {}
+               };
+               (function() {
+                 var commonParam = '?' + JSON.parse(res.data.message).body
+                 var item = '',
+                   key = '',
+                   val = '';
+                 var commonParamArr = commonParam.split('&');
+                 commonParamArr[0] = commonParamArr[0].replace(/^\?/, '');
+                 console.log(commonParamArr);
+                 for (var i = 0, len = commonParamArr.length; i < len; i++) {
+                   item = commonParamArr[i].split('=');
+                   key = item[0];
+                   val = item[1];
+                   // 排除commonParam内uid、token字段
+                   if (key == 'uid') continue;
+                   postData.values[key] = val;
+                 }
+                 console.log(postData.values);
+               })();
+               wx.request({
+                 url: JSON.parse(res.data.message).url,
+                 method: 'POST',
+                 header: {
+                   'content-type': 'application/x-www-form-urlencoded'
+                 },
+                 data: postData.values,
+                 success(res) {
+                   console.log(res.data);
+                   that.setData({
+                     'gifshowList': that.data.gifshowList.concat(res.data.feeds),
+                     'pCursor': res.data.pcursor,
+                   });
+                   wx.hideLoading();
+                 },
+                 fail() {
+                   wx.showToast({
+                     title: '网络请求失败，请稍后重试！',
+                     icon: 'none',
+                     duration: 3000
+                   })
+                 }
+               });
+             },
+             fail() {
+               wx.showToast({
+                 title: '网络请求失败，请稍后重试！',
+                 icon: 'none',
+                 duration: 3000
+               })
+             }
+           });
+         } else {
+           wx.showToast({
+             title: '解析失败，请稍后重试或联系客服处理！',
+             icon: 'none',
+             duration: 3000
+           })
+         }
+       },
+       fail() {
+         wx.showToast({
+           title: '网络请求失败，请稍后重试！',
+           icon: 'none',
+           duration: 3000
+         })
+       }
+     });
    },
    fetchDouyin: function(nextCursor) {
      var that = this;
@@ -173,7 +274,7 @@
        method: 'GET',
        success(res) {
          console.log(res.data);
-         wx.hideLoading();
+
          if (res.data != null && res.data.status == 0) {
            var message = JSON.parse(res.data.message);
            if (message != null && message.count > 0) {
@@ -184,7 +285,7 @@
                totalCount: message.count,
                nextCursor: message.nextCursor
              })
-
+             wx.hideLoading();
            } else {
              wx.showToast({
                title: '解析失败，请稍后重试或联系客服处理！',
@@ -211,8 +312,8 @@
    },
    onLoad: function(options) {
 
-      var currentUrl = options.url;
-    //  var currentUrl = 'http://m.gifshow.com/s/yn9qahlI'
+     var currentUrl = options.url;
+     // var currentUrl = 'http://m.gifshow.com/s/yn9qahlI'
 
      // console.log("options.url:" + currentUrl)
      var that = this;
@@ -278,44 +379,61 @@
          url: 'https://service.qushuiyin.club/vcap/video/parse?format=mini&userId=&target=kuaishou&shareUrl=' + encodeURIComponent(currentUrl),
          method: 'GET',
          success(res) {
+           console.log("gifshow");
            console.log(res.data);
            wx.hideLoading();
            if (res.data != null && res.data.status == 0) {
-             var data = res.data;
+             var userdata = res.data;
              wx.request({
-               url: 'https://service.qushuiyin.club/vcap/video/list?format=mini&userId=' + data.id + '&target=kuaishou&cursor=0&count=10&shareUrl=' + encodeURIComponent(currentUrl),
+               url: 'https://service.qushuiyin.club/vcap/video/list?format=mini&userId=' + userdata.id + '&target=kuaishou&cursor=0&count=10&shareUrl=' + encodeURIComponent(currentUrl),
                method: 'GET',
                success(res) {
+                 console.log("gifshowrequest");
                  console.log(res.data);
-                 wx.hideLoading();
-                 if (res.data != null && res.data.status == 0) {
-                   var message = JSON.parse(res.data.message);
-                   if (message != null && message.count > 0) {
+                 var postData = {
+                   values: {}
+                 };
+                 (function() {
+                   var commonParam = '?' + JSON.parse(res.data.message).body
+                   var item = '',
+                     key = '',
+                     val = '';
+                   var commonParamArr = commonParam.split('&');
+                   commonParamArr[0] = commonParamArr[0].replace(/^\?/, '');
+                   console.log(commonParamArr);
+                   for (var i = 0, len = commonParamArr.length; i < len; i++) {
+                     item = commonParamArr[i].split('=');
+                     key = item[0];
+                     val = item[1];
+                     // 排除commonParam内uid、token字段
+                     if (key == 'uid') continue;
+                     postData.values[key] = val;
+                   }
+                   console.log(postData.values);
+                 })();
+                 wx.request({
+                   url: JSON.parse(res.data.message).url,
+                   method: 'POST',
+                   header: {
+                     'content-type': 'application/x-www-form-urlencoded'
+                   },
+                   data: postData.values,
+                   success(res) {
+                     console.log(res.data);
+                     console.log(res.data.feeds[0].main_mv_urls[0]);
                      that.setData({
-                       videoList: message.videos,
-                       hasMore: message.hasMore,
-                       totalCount: message.count,
-                       nextCursor: message.nextCursor
+                       'gifshowList': res.data.feeds,
+                       'pCursor': res.data.pcursor,
                      })
+                   },
+                   fail() {
                      wx.showToast({
-                       title: '解析成功，上拉加载更多',
-                       icon: 'none',
-                       duration: 3000
-                     })
-                   } else {
-                     wx.showToast({
-                       title: '解析失败，请稍后重试或联系客服处理！',
+                       title: '网络请求失败，请稍后重试！',
                        icon: 'none',
                        duration: 3000
                      })
                    }
-                 } else {
-                   wx.showToast({
-                     title: '解析失败，请稍后重试或联系客服处理！',
-                     icon: 'none',
-                     duration: 3000
-                   })
-                 }
+                 });
                },
                fail() {
                  wx.showToast({
