@@ -16,7 +16,9 @@
     "wux-alert": "../../plugins/wux/alert/index",
     "wux-fab-button": "../../plugins/wux/fab-button/index",
     "add-tips": "../../plugins/add-tips/index",
-    "wux-image": "../../plugins/wux/image/index"
+    "wux-image": "../../plugins/wux/image/index",
+    "wux-steps": "../../plugins/wux/steps/index",
+    "wux-step": "../../plugins/wux/step/index"
   },
-  "navigationBarTitleText": "批量解析"
+  "navigationBarTitleText": "批量下载教程"
 }

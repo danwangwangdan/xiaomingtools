@@ -9,14 +9,18 @@
      realUrl: '',
      videoUrl: '',
      hasMore: true,
+     hasMore2: true,
      videoList: [],
-     videoListFor: [],
+     videoList2: [],
+     videoListFor: '',
      totalCount: 0,
      nextCursor: 0,
+     nextCursorFor: 0,
      pCursor: '',
+     pCursorFor: '',
      gifshowList: [],
-     gifshowListFor: [],
-     isFetchEnd: false,
+     gifshowList2: [],
+     gifshowListFor: '',
      isSaveBtnLoad: false,
      isSaveBtnDis: false,
    },
@@ -44,7 +48,6 @@
              icon: 'none',
              duration: 2000
            })
-
            that.setData({
              isSaveBtnLoad: true,
              saveBtnText: '存至相册中...',
@@ -132,11 +135,13 @@
 
      });
    },
+   toHelp: function() {
+     wx.navigateTo({
+       url: '/pages/help/help'
+     });
+   },
    toCopy: function() {
      var that = this;
-     wx.pageScrollTo({
-       scrollTop: 0 //设置滑动距离为0
-     })
      wx.setClipboardData({
        data: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
        success: function(res) {
@@ -150,15 +155,14 @@
    },
    toCopyAll: function() {
      var that = this;
-     // 正常播放结束，可以下发游戏奖励
      wx.showModal({
        title: '确定需要复制所有作品链接吗？',
        content: '此操作需要50积分',
-       success: function (res) {
+       success: function(res) {
          if (res.confirm) {
            console.log('用户点击确定');
            wx.request({
-             url: app.globalData.myApiUrl + 'hishelp/shuiyin/take?id=' + wx.getStorageSync("userInfo").id,
+             url: app.globalData.myApiUrl + 'hishelp/shuiyin/takebatch?id=' + wx.getStorageSync("userInfo").id,
              method: 'GET',
              success(res) {
                console.log(res.data);
@@ -170,18 +174,22 @@
                    icon: 'none',
                    title: '请求数据中...',
                  })
-                 that.fetchDYAll(that.data.nextCursor);
+                 if (that.data.platform == 'douyin') {
+                   that.fetchDYAll(that.data.nextCursorFor);
+                 } else if (that.data.platform == 'gifshow') {
+                   that.fetchKSAll(that.data.pCursorFor);
+                 }
                } else if (data.code = -101) {
                  wx.showModal({
                    title: '积分不足50分',
                    content: '先去个人中心完成任务增加积分哦',
-                   success: function (res) {
+                   success: function(res) {
                      if (res.confirm) {
                        wx.switchTab({
                          url: '/pages/me/me'
                        })
                      } else if (res.cancel) {
-                      
+
                      }
                    }
                  });
@@ -193,18 +201,120 @@
          }
        }
      });
-     
-     //  wx.setClipboardData({
-     //    data: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
-     //    success: function (res) {
-     //      wx.showToast({
-     //        title: '复制成功，请去第三方浏览器(如QQ/Alook等)打开下载！',
-     //        icon: 'none',
-     //        duration: 3000
-     //      })
-     //    }
-     //  })
    },
+   fetchKSAll: function(pCursor) {
+     var that = this;
+     wx.request({
+       url: 'https://service.qushuiyin.club/vcap/video/parse?format=mini&userId=&target=kuaishou&shareUrl=' + encodeURIComponent(that.data.videoUrl),
+       method: 'GET',
+       success(res) {
+         console.log("gifshow");
+         console.log(res.data);
+
+         if (res.data != null && res.data.status == 0) {
+           var userdata = res.data;
+           wx.request({
+             url: 'https://service.qushuiyin.club/vcap/video/list?format=mini&userId=' + userdata.id + '&target=kuaishou&cursor=' + pCursor + '&count=10&shareUrl=' + encodeURIComponent(that.data.videoUrl),
+             method: 'GET',
+             success(res) {
+               console.log("gifshowrequest");
+               console.log(res.data);
+               var postData = {
+                 values: {}
+               };
+               (function() {
+                 var commonParam = '?' + JSON.parse(res.data.message).body
+                 var item = '',
+                   key = '',
+                   val = '';
+                 var commonParamArr = commonParam.split('&');
+                 commonParamArr[0] = commonParamArr[0].replace(/^\?/, '');
+                 console.log(commonParamArr);
+                 for (var i = 0, len = commonParamArr.length; i < len; i++) {
+                   item = commonParamArr[i].split('=');
+                   key = item[0];
+                   val = item[1];
+                   // 排除commonParam内uid、token字段
+                   if (key == 'uid') continue;
+                   postData.values[key] = val;
+                 }
+                 console.log(postData.values);
+               })();
+               wx.request({
+                 url: JSON.parse(res.data.message).url,
+                 method: 'POST',
+                 header: {
+                   'content-type': 'application/x-www-form-urlencoded'
+                 },
+                 data: postData.values,
+                 success(res) {
+                   console.log(res.data);
+                   that.setData({
+                     gifshowList2: that.data.gifshowList2.concat(res.data.feeds),
+                     pCursorFor: res.data.pcursor,
+                   });
+                   if (that.data.pCursorFor != '' && that.data.pCursorFor != 'no_more') {
+                     that.fetchKSAll(res.data.pcursor);
+                   } else {
+                     console.log("总计:" + that.data.gifshowList2.length);
+                     for (var j = 0, len = that.data.gifshowList2.length; j < len; j++) {
+                       if (that.data.gifshowList2[j] && that.data.gifshowList2[j].main_mv_urls){
+                         var oneUrl = that.data.gifshowList2[j].main_mv_urls[0].url != '' ? that.data.gifshowList2[j].main_mv_urls[0].url : that.data.gifshowList2[j].main_mv_urls[1].url;
+                       }
+                       that.setData({
+                         gifshowListFor: that.data.gifshowListFor + '\r\n' + oneUrl
+                       })
+                     }
+                     console.log('no_more');   
+                     console.log(that.data.gifshowListFor);                   
+                     wx.hideLoading();
+                     wx.setClipboardData({
+                       data: that.data.gifshowListFor,
+                       success: function(res) {
+                         wx.showToast({
+                           title: '复制成功，请去电脑上IDM批量下载！',
+                           icon: 'none',
+                           duration: 3000
+                         })
+                       }
+                     })
+                   }
+                 },
+                 fail() {
+                   wx.showToast({
+                     title: '网络请求失败，请稍后重试！',
+                     icon: 'none',
+                     duration: 3000
+                   })
+                 }
+               });
+             },
+             fail() {
+               wx.showToast({
+                 title: '网络请求失败，请稍后重试！',
+                 icon: 'none',
+                 duration: 3000
+               })
+             }
+           });
+         } else {
+           wx.showToast({
+             title: '解析失败，请稍后重试或联系客服处理！',
+             icon: 'none',
+             duration: 3000
+           })
+         }
+       },
+       fail() {
+         wx.showToast({
+           title: '网络请求失败，请稍后重试！',
+           icon: 'none',
+           duration: 3000
+         })
+       }
+     });
+   },
+
 
    fetchDYAll: function(nextCursor) {
      var that = this;
@@ -218,57 +328,73 @@
            if (message != null) {
              console.log(message)
              that.setData({
-               videoList: that.data.videoList.concat(message.videos),
-               hasMore: message.hasMore,
-               totalCount: message.count,
-               nextCursor: message.nextCursor
+               videoList2: that.data.videoList2.concat(message.videos),
+               hasMore2: message.hasMore,
+               nextCursorFor: message.nextCursor
              })
              if (message.hasMore) {
                that.fetchDYAll(message.nextCursor);
              } else if (!message.hasMore) {
-               for (var j = 0, len = that.data.videoList.length; j < len; j++) {
+               console.log("总计：" + that.data.videoList2.length)
+               for (var j = 0, len = that.data.videoList2.length; j < len; j++) {
                  that.setData({
-                   videoListFor: that.data.videoListFor + '\r\n' + that.data.videoList[j].downloadUrl
+                   videoListFor: that.data.videoListFor + '\r\n' + that.data.videoList2[j].downloadUrl
                  })
                }
                console.log('no_more');
-               console.log(that.data.videoListFor);
                wx.hideLoading();
+               wx.setClipboardData({
+                 data: that.data.videoListFor,
+                 success: function(res) {
+                   wx.showToast({
+                     title: '复制成功，请去电脑上IDM批量下载！',
+                     icon: 'none',
+                     duration: 3000
+                   })
+                 }
+               })
+
+             }
+           } else {
+
+             console.log("总计：" + that.data.videoList2.length)
+             for (var j = 0, len = that.data.videoList2.length; j < len; j++) {
+               that.setData({
+                 videoListFor: that.data.videoListFor + '\r\n' + that.data.videoList2[j].downloadUrl
+               })
+             }
+             wx.hideLoading();
+             wx.setClipboardData({
+               data: that.data.videoListFor,
+               success: function(res) {
+                 wx.showToast({
+                   title: '复制成功，请去第三方浏览器(如QQ/Alook等)打开下载！',
+                   icon: 'none',
+                   duration: 3000
+                 })
+               }
+             })
+             console.log('message = null');
+           }
+         } else {
+           console.log("总计：" + that.data.videoList2.length)
+           for (var j = 0, len = that.data.videoList2.length; j < len; j++) {
+             that.setData({
+               videoListFor: that.data.videoListFor + '\r\n' + that.data.videoList2[j].downloadUrl
+             })
+           }
+           wx.hideLoading();
+           wx.setClipboardData({
+             data: that.data.videoListFor,
+             success: function(res) {
                wx.showToast({
-                 title: '已复制完毕！',
+                 title: '复制成功，请去第三方浏览器(如QQ/Alook等)打开下载！',
                  icon: 'none',
                  duration: 3000
                })
              }
-           } else {
-             console.log('message = null');
-             for (var j = 0, len = that.data.videoList.length; j < len; j++) {
-               that.setData({
-                 videoListFor: that.data.videoListFor + '\r\n' + that.data.videoList[j].downloadUrl
-               })
-             }
-             wx.hideLoading();
-             wx.showToast({
-               title: '已复制完毕！',
-               icon: 'none',
-               duration: 3000
-             })
-             console.log(that.data.videoListFor);
-           }
-         } else {
-           for (var j = 0, len = that.data.videoList.length; j < len; j++) {
-             that.setData({
-               videoListFor: that.data.videoListFor + '\r\n' + that.data.videoList[j].downloadUrl
-             })
-           }
-           wx.hideLoading();
-           wx.showToast({
-             title: '已复制完毕！',
-             icon: 'none',
-             duration: 3000
            })
            console.log('status is -');
-           console.log(that.data.videoListFor);
          }
        },
        fail() {
@@ -450,8 +576,8 @@
    },
    onLoad: function(options) {
 
-     //var currentUrl = options.url;
-     var currentUrl = 'http://v.douyin.com/keb6uL/'
+     var currentUrl = options.url;
+     //  var currentUrl = 'http://v.douyin.com/keb6uL/'
 
      // console.log("options.url:" + currentUrl)
      var that = this;
@@ -559,7 +685,6 @@
                    data: postData.values,
                    success(res) {
                      console.log(res.data);
-                     console.log(res.data.feeds[0].main_mv_urls[0]);
                      that.setData({
                        'gifshowList': res.data.feeds,
                        'pCursor': res.data.pcursor,

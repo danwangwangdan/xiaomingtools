@@ -7,6 +7,17 @@
   background: #f0f0f0;
 }
 
+.many-text {
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  padding-left: 20px;
+  padding-right: 10px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 10;
+}
+
 .u-img-slide {
   width: 100%;
   height: inherit;
@@ -15,11 +26,12 @@
 .video-list {
   width: 300rpx;
 }
+
 .border {
-  border-radius:2%;
-  background:white;
-  margin:30rpx;
-  padding:10rpx;
+  border-radius: 2%;
+  background: white;
+  margin: 30rpx;
+  padding: 10rpx;
   border-style: solid;
   box-shadow: 0px 2px 4px 2px #ddd;
   border-width: 0rpx;
