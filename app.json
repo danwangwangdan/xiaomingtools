@@ -1,10 +1,10 @@
 {
   "pages": [
-      "pages/list/list",
+        "pages/me/me",
+    "pages/list/list",
+
     "pages/index/index",
- 
     "pages/batch/batch",
-    "pages/me/me",
     "pages/save/save"
   ],
   "window": {

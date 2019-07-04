@@ -10,10 +10,13 @@
      videoUrl: '',
      hasMore: true,
      videoList: [],
+     videoListFor: [],
      totalCount: 0,
      nextCursor: 0,
      pCursor: '',
      gifshowList: [],
+     gifshowListFor: [],
+     isFetchEnd: false,
      isSaveBtnLoad: false,
      isSaveBtnDis: false,
    },
@@ -61,7 +64,6 @@
                      that.setData({
                        isSaveBtnLoad: false,
                        isSaveBtnDis: false,
-
                      })
                      wx.showToast({
                        title: '保存成功，请去系统相册查看！',
@@ -146,21 +148,139 @@
        }
      })
    },
-   toCopyAll: function () {
+   toCopyAll: function() {
      var that = this;
-      console.log(that.data.gifshowList);
-
-     wx.setClipboardData({
-       data: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
+     // 正常播放结束，可以下发游戏奖励
+     wx.showModal({
+       title: '确定需要复制所有作品链接吗？',
+       content: '此操作需要50积分',
        success: function (res) {
+         if (res.confirm) {
+           console.log('用户点击确定');
+           wx.request({
+             url: app.globalData.myApiUrl + 'hishelp/shuiyin/take?id=' + wx.getStorageSync("userInfo").id,
+             method: 'GET',
+             success(res) {
+               console.log(res.data);
+               var data = res.data;
+               if (data.code >= 0) {
+                 console.log("积分扣除");
+                 // 扣除积分，积分不够则提醒
+                 wx.showLoading({
+                   icon: 'none',
+                   title: '请求数据中...',
+                 })
+                 that.fetchDYAll(that.data.nextCursor);
+               } else if (data.code = -101) {
+                 wx.showModal({
+                   title: '积分不足50分',
+                   content: '先去个人中心完成任务增加积分哦',
+                   success: function (res) {
+                     if (res.confirm) {
+                       wx.switchTab({
+                         url: '/pages/me/me'
+                       })
+                     } else if (res.cancel) {
+                      
+                     }
+                   }
+                 });
+               }
+             }
+           });
+         } else if (res.cancel) {
+           console.log('用户点击取消')
+         }
+       }
+     });
+     
+     //  wx.setClipboardData({
+     //    data: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
+     //    success: function (res) {
+     //      wx.showToast({
+     //        title: '复制成功，请去第三方浏览器(如QQ/Alook等)打开下载！',
+     //        icon: 'none',
+     //        duration: 3000
+     //      })
+     //    }
+     //  })
+   },
+
+   fetchDYAll: function(nextCursor) {
+     var that = this;
+     wx.request({
+       url: 'https://service.qushuiyin.club/vcap/video/list?format=mini&userId=&target=douyin&cursor=' + nextCursor + '&count=10&shareUrl=' + encodeURIComponent(that.data.videoUrl),
+       method: 'GET',
+       success(res) {
+         console.log(res.data);
+         if (res.data != null && res.data.status == 0) {
+           var message = JSON.parse(res.data.message);
+           if (message != null) {
+             console.log(message)
+             that.setData({
+               videoList: that.data.videoList.concat(message.videos),
+               hasMore: message.hasMore,
+               totalCount: message.count,
+               nextCursor: message.nextCursor
+             })
+             if (message.hasMore) {
+               that.fetchDYAll(message.nextCursor);
+             } else if (!message.hasMore) {
+               for (var j = 0, len = that.data.videoList.length; j < len; j++) {
+                 that.setData({
+                   videoListFor: that.data.videoListFor + '\r\n' + that.data.videoList[j].downloadUrl
+                 })
+               }
+               console.log('no_more');
+               console.log(that.data.videoListFor);
+               wx.hideLoading();
+               wx.showToast({
+                 title: '已复制完毕！',
+                 icon: 'none',
+                 duration: 3000
+               })
+             }
+           } else {
+             console.log('message = null');
+             for (var j = 0, len = that.data.videoList.length; j < len; j++) {
+               that.setData({
+                 videoListFor: that.data.videoListFor + '\r\n' + that.data.videoList[j].downloadUrl
+               })
+             }
+             wx.hideLoading();
+             wx.showToast({
+               title: '已复制完毕！',
+               icon: 'none',
+               duration: 3000
+             })
+             console.log(that.data.videoListFor);
+           }
+         } else {
+           for (var j = 0, len = that.data.videoList.length; j < len; j++) {
+             that.setData({
+               videoListFor: that.data.videoListFor + '\r\n' + that.data.videoList[j].downloadUrl
+             })
+           }
+           wx.hideLoading();
+           wx.showToast({
+             title: '已复制完毕！',
+             icon: 'none',
+             duration: 3000
+           })
+           console.log('status is -');
+           console.log(that.data.videoListFor);
+         }
+       },
+       fail() {
          wx.showToast({
-           title: '复制成功，请去第三方浏览器(如QQ/Alook等)打开下载！',
+           title: '网络请求失败，请稍后重试！',
            icon: 'none',
            duration: 3000
          })
        }
-     })
+     });
    },
+
    onReachBottom: function() {
 
      // 下拉触底，先判断是否有请求正在进行中
@@ -202,7 +322,7 @@
        success(res) {
          console.log("gifshow");
          console.log(res.data);
-        
+
          if (res.data != null && res.data.status == 0) {
            var userdata = res.data;
            wx.request({
@@ -331,7 +451,7 @@
    onLoad: function(options) {
 
      //var currentUrl = options.url;
-      var currentUrl = 'http://m.gifshow.com/s/yn9qahlI'
+     var currentUrl = 'http://v.douyin.com/keb6uL/'
 
      // console.log("options.url:" + currentUrl)
      var that = this;
@@ -374,6 +494,7 @@
                })
              }
            } else {
+
              wx.showToast({
                title: '解析失败，请稍后重试或联系客服处理！',
                icon: 'none',

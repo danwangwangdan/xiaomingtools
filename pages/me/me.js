@@ -66,8 +66,6 @@ Page({
   toVideo: function(options) {
     console.log("视频");
     var that = this;
-
-
     if (videoAd) {
       videoAd.show().catch(() => {
         // 失败重试
@@ -139,7 +137,18 @@ Page({
   onLoad: function() {
 
     var that = this;
-
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userInfo']) {
+          wx.authorize({
+            scope: 'scope.userInfo',
+            success() {
+              
+            }
+          })
+        }
+      }
+    })
     if (wx.createRewardedVideoAd) {
       videoAd = wx.createRewardedVideoAd({
         adUnitId: 'adunit-498062c378a63ba4'
@@ -269,10 +278,44 @@ Page({
     } else {
       that.setData({
         isLogin: 1
-      });
-      that.onShow();
+      })
+      wx.getUserInfo({
+        success: function (res) {
+          var userInfo = res.userInfo
+          console.log('更新用户信息')
+          that.setData({
+            isLogin: 1,
+            nickname: userInfo.nickName
+          });
+          wx.request({
+            url: app.globalData.myApiUrl + 'hishelp/shuiyin/update?nickname=' + encodeURI(encodeURI(userInfo.nickName)) +'&id=' + wx.getStorageSync("userInfo").id,
+            method: 'GET',
+            success(res) {
+              console.log(res.data);
+              wx.hideLoading();
+              var userInfo = res.data.data;
+              if (userInfo != null) {
+                wx.setStorageSync("userInfo", userInfo);
+                that.setData({
+                  point: userInfo.point,
+                  videoCount: userInfo.videoCount,
+                  shareCount: userInfo.shareCount,
+                  signCount: userInfo.signCount
+                });
+              }
+            },
+            fail() {
+              wx.showToast({
+                title: '网络请求失败，请稍后重试！',
+                icon: 'none',
+                duration: 3000
+              })
+            }
+          })
+        }
+      })
+      that.onShow();  
     }
-
   },
 
   /**
@@ -287,6 +330,19 @@ Page({
    */
   onShow: function() {
     var that = this;
+    
+    wx.getUserInfo({
+      success: function (res) {
+        console.log(res.userInfo)
+        var userInfo = res.userInfo
+        var nickName = userInfo.nickName
+        var avatarUrl = userInfo.avatarUrl
+        var gender = userInfo.gender //性别 0：未知、1：男、2：女
+        var province = userInfo.province
+        var city = userInfo.city
+        var country = userInfo.country
+      }
+    })
     wx.request({
       url: app.globalData.myApiUrl + 'hishelp/shuiyin/find?id=' + wx.getStorageSync("userInfo").id,
       method: 'GET',
@@ -298,7 +354,6 @@ Page({
           wx.setStorageSync("userInfo", userInfo);
           that.setData({
             point: userInfo.point,
-            nickname: userInfo.username,
             videoCount: userInfo.videoCount,
             shareCount: userInfo.shareCount,
             signCount: userInfo.signCount
