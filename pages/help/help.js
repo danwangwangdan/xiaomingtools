@@ -19,7 +19,7 @@ Page({
     var that = this;
     console.log('1111')
     wx.setClipboardData({
-      data: 'https://www.lanzous.com/i4ub73a',
+      data: 'https://www.lanzous.com/i4upzyd',
       success: function(res) {
         wx.showToast({
           title: '复制IDM下载地址成功，请前去电脑浏览器打开！',

@@ -3,7 +3,7 @@
 </view>
 <!-- <wux-notice-bar controlled content="遇到问题请联系客服。" /> -->
 <view style='margin-top:20rpx;margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert bind:click="showPic" theme="stable" title="正确食用方式:" label="去短视频APP中打开作者主页 -> 点击右上角三个点 -> 点击右上角分享图标 -> 点击复制链接后返回至这里 -> 点击获取作者视频 -> 下载想保存的视频" />
+  <wux-alert bind:click="showPic" theme="stable" title="正确食用方式:" label="去短视频APP中打开作者主页 -> 点击右上角三个点 -> 点击右上角分享图标 -> 点击复制链接后返回至这里 -> 点击获取作品列表 -> 下载想保存的视频" />
   <wux-cell-group controlled title="批量链接支持：抖音，快手">
     <wux-cell hover-class="none">
       <wux-input clear controlled placeholder="轻触以输入链接或去APP复制链接" bind:change="bindUrlValue" bind:clear="bindUrlClear" value="{{url}}" />

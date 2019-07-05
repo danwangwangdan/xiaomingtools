@@ -2,7 +2,7 @@
   <ad unit-id="adunit-5dec35ad334a4ca8"></ad>
 </view>
 <view style='margin-top:20rpx;margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert bind:click="toCopyIDM" theme="balanced" title="批量下载需在电脑上完成！点我复制IDM软件下载地址: https://www.lanzous.com/i4ub73a" />
+  <wux-alert bind:click="toCopyIDM" theme="balanced" title="批量下载需在电脑上完成！点我复制IDM软件下载地址: https://www.lanzous.com/i4upzyd" />
   <view style='margin-top:40rpx;margin-left:40rpx;margin-right:40rpx;'>
     <wux-steps  direction="vertical">
       <wux-step status="finish" title="复制所有作品链接" content="在作品列表页点击'复制所有作品链接'按钮，等待一段时间数据请求完毕后，将复制的链接内容粘贴发送至电脑上。"></wux-step>
