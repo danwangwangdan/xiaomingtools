@@ -253,7 +253,7 @@ Page({
                         })
                         wx.showModal({
                           title: '登录成功',
-                          content: '新用户将赠送您10积分，积分不够了可以去个人中心完成简单的任务获取更多积分哦',
+                          content: '新用户将赠送您50积分，下载一次需要2积分，积分不够了可以去个人中心完成简单的任务获取',
                           success: function(res) {
                             if (res.confirm) {
                               wx.switchTab({
