@@ -7,7 +7,7 @@
     <wux-steps  direction="vertical">
       <wux-step status="finish" title="复制所有作品链接" content="在作品列表页点击'复制所有作品链接'按钮，等待一段时间数据请求完毕后，将复制的链接内容粘贴发送至电脑上。"></wux-step>
       <wux-step status="finish" title="(初次使用需)下载'IDM'软件" content="点击上面的彩条复制IDM软件下载地址，在电脑浏览器中打开后下载IDM软件。下载完成后解压，然后打开'绿化.bat'，等待完成。"></wux-step>
-      <wux-step status="finish" title="批量下载视频文件" content="复制您刚刚发送到电脑上的下载链接，打开IDM软件，点击左上角'文件'选项，选择'从剪贴板中添加批量下载'，根据需要选择下载文件，并确定下载目录后点击'确定'，然后勾选'开始执行队列'，点击'确定'立即下载文件"></wux-step>
+      <wux-step status="finish" title="批量下载视频文件" content="复制您刚刚发送到电脑上的下载链接，打开IDM软件，点击左上角'文件'选项，选择'从剪贴板中添加批量下载'，根据需要选择下载文件，并确定下载目录后点击'确定'，然后勾选'开始执行队列'，点击'确定'立即下载文件。复制的链接请及时下载，以免失效。"></wux-step>
     </wux-steps>
   </view>
 </view>

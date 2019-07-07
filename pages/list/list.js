@@ -382,7 +382,7 @@
                data: that.data.videoListFor,
                success: function(res) {
                  wx.showToast({
-                   title: '复制成功，请去第三方浏览器(如QQ/Alook等)打开下载！',
+                   title: '复制成功，请去电脑上IDM批量下载！',
                    icon: 'none',
                    duration: 3000
                  })
@@ -402,7 +402,7 @@
              data: that.data.videoListFor,
              success: function(res) {
                wx.showToast({
-                 title: '复制成功，请去第三方浏览器(如QQ/Alook等)打开下载！',
+                 title: '复制成功，请去电脑上IDM批量下载！',
                  icon: 'none',
                  duration: 3000
                })
