@@ -53,7 +53,6 @@
              saveBtnText: '存至相册中...',
              isSaveBtnDis: true
            })
-
            const downloadTask = wx.downloadFile({
              url: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
              success(res) {
@@ -81,6 +80,21 @@
                    isSaveBtnDis: false,
                    saveBtnText: '存至相册，2积分/次'
                  })
+                 wx.request({
+                   url: app.globalData.myApiUrl + 'hishelp/shuiyin/addpoint?id=' + wx.getStorageSync("userInfo").id + '&point=2',
+                   method: 'GET',
+                   success(res) {
+                     console.log(res.data);
+                     wx.hideLoading();
+                   },
+                   fail() {
+                     wx.showToast({
+                       title: '网络请求失败，请稍后重试！',
+                       icon: 'none',
+                       duration: 3000
+                     })
+                   }
+                 });
                  wx.showToast({
                    title: '保存失败，请复制链接到浏览器下载！',
                    icon: 'none',

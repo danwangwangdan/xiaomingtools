@@ -88,8 +88,23 @@
                    isSaveBtnDis: false,
                    saveBtnText: '存至相册，2积分/次'
                  })
+                 wx.request({
+                   url: app.globalData.myApiUrl + 'hishelp/shuiyin/addpoint?id=' + wx.getStorageSync("userInfo").id + '&point=2',
+                   method: 'GET',
+                   success(res) {
+                     console.log(res.data);
+                     wx.hideLoading();
+                   },
+                   fail() {
+                     wx.showToast({
+                       title: '网络请求失败，请稍后重试！',
+                       icon: 'none',
+                       duration: 3000
+                     })
+                   }
+                 });
                  wx.showToast({
-                   title: '保存失败，请复制链接到浏览器下载！',
+                   title: '保存失败，已退回2积分，请复制链接到浏览器下载！',
                    icon: 'none',
                    duration: 3000
                  })
@@ -115,17 +130,17 @@
                })
              }
            });
-          //  downloadTask.onProgressUpdate((res) => {
-          //    console.log('下载进度', res)
-            
-          //    if (res.progress === 100) {
-          //      that.setData({
-          //        isSaveBtnLoad: false,
-          //        isSaveBtnDis: false,
-          //        saveBtnText: '存至相册，2积分/次'
-          //      })
-          //    }
-          //  })
+           //  downloadTask.onProgressUpdate((res) => {
+           //    console.log('下载进度', res)
+
+           //    if (res.progress === 100) {
+           //      that.setData({
+           //        isSaveBtnLoad: false,
+           //        isSaveBtnDis: false,
+           //        saveBtnText: '存至相册，2积分/次'
+           //      })
+           //    }
+           //  })
          } else if (data.code = -101) {
            wx.showModal({
              title: '积分不足2分',
@@ -171,7 +186,7 @@
        icon: 'none',
        title: '解析视频中...',
      })
-     if (vedioUrl.indexOf("tiktok")>0) {
+     if (vedioUrl.indexOf("tiktok") > 0) {
        wx.request({
          url: 'https://www.daliandaxue.cn/douyin-1.0/video/tiktok?url=' + encodeURIComponent(vedioUrl),
          method: 'GET',
@@ -217,26 +232,33 @@
        });
 
      } else {
-     wx.request({
-       url: 'https://api.tecms.net/dsp?token=050937FU65641YKNJKL&key=4E0708A3ECNJKL5FFA40FB&url=' + vedioUrl,
-       method: 'GET',
-       success(res) {
-         console.log(res.data);
-         wx.hideLoading();
-         if (res.data != null && res.data.status == 101) {
-           var data = res.data;
-           if (data.data != null && data.data.url != '' && data.data.url != null) {
-             that.setData({
-               realUrl: data.data.url,
-               isSaveShow: true,
-               isCopyShow: true,
-               isVedioShow: true
-             })
-             wx.showToast({
-               title: '解析成功，您可以直接存至相册了！',
-               icon: 'none',
-               duration: 3000
-             })
+       wx.request({
+         url: 'https://api.tecms.net/dsp?token=050937FU65641YKNJKL&key=4E0708A3ECNJKL5FFA40FB&url=' + vedioUrl,
+         method: 'GET',
+         success(res) {
+           console.log(res.data);
+           wx.hideLoading();
+           if (res.data != null && res.data.status == 101) {
+             var data = res.data;
+             if (data.data != null && data.data.url != '' && data.data.url != null) {
+               that.setData({
+                 realUrl: data.data.url,
+                 isSaveShow: true,
+                 isCopyShow: true,
+                 isVedioShow: true
+               })
+               wx.showToast({
+                 title: '解析成功，您可以直接存至相册了！',
+                 icon: 'none',
+                 duration: 3000
+               })
+             } else {
+               wx.showToast({
+                 title: '解析失败，请稍后重试或联系客服处理！',
+                 icon: 'none',
+                 duration: 3000
+               })
+             }
            } else {
              wx.showToast({
                title: '解析失败，请稍后重试或联系客服处理！',
@@ -244,35 +266,28 @@
                duration: 3000
              })
            }
-         } else {
+         },
+         fail() {
            wx.showToast({
-             title: '解析失败，请稍后重试或联系客服处理！',
+             title: '网络请求失败，请稍后重试！',
              icon: 'none',
              duration: 3000
            })
          }
-       },
-       fail() {
-         wx.showToast({
-           title: '网络请求失败，请稍后重试！',
-           icon: 'none',
-           duration: 3000
-         })
-       }
-     });
-   }
- },
- //转发
- onShareAppMessage: function(res) {
-   if (res.from === 'button') {
+       });
+     }
+   },
+   //转发
+   onShareAppMessage: function(res) {
+     if (res.from === 'button') {
 
-   }
-   return {
-     title: '我发现了一个免费好用的短视频去水印工具',
-     path: '/pages/index/index',
-     success: function(res) {
-       console.log('成功', res)
+     }
+     return {
+       title: '我发现了一个免费好用的短视频去水印工具',
+       path: '/pages/index/index',
+       success: function(res) {
+         console.log('成功', res)
+       }
      }
    }
- }
  })
