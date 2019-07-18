@@ -54,7 +54,7 @@
              isSaveBtnDis: true
            })
            const downloadTask = wx.downloadFile({
-             url: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
+             url: 'https://api.tecms.net/downVideo.php?url=' +that.data.realUrl,
              success(res) {
                console.log("开始下载...")
                console.log(res)
