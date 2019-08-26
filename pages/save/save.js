@@ -61,7 +61,7 @@
              duration: 2000
            })
            const downloadTask = wx.downloadFile({
-             url: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
+             url: 'https://api.tecms.net/downVideo.php?url=' + that.data.realUrl,
              success(res) {
                console.log("开始下载...")
                console.log(res)
@@ -167,7 +167,7 @@
    toCopy: function() {
      var that = this;
      wx.setClipboardData({
-       data: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
+       data: 'https://api.tecms.net/downVideo.php?url=' + that.data.realUrl,
        success: function(res) {
          wx.showToast({
            title: '复制成功，请去第三方浏览器(如QQ/UC)打开下载！',
@@ -258,6 +258,7 @@
                  icon: 'none',
                  duration: 3000
                })
+               
              }
            } else {
              wx.showToast({
