@@ -268,19 +268,22 @@
                  duration: 3000
                })
              } else {
-               wx.showToast({
-                 title: '解析失败，请稍后重试或联系客服处理！',
-                 icon: 'none',
-                 duration: 3000
-               })
-               
+                wx.showToast({
+                  title: '解析失败，请稍后重试或联系客服处理！',
+                  icon: 'none',
+                  duration: 3000
+                });
+               // 尝试其他解析方式
+              //  that.secDecode(vedioUrl);
              }
            } else {
-             wx.showToast({
-               title: '解析失败，请稍后重试或联系客服处理！',
-               icon: 'none',
-               duration: 3000
-             })
+              wx.showToast({
+                title: '解析失败，请稍后重试或联系客服处理！',
+                icon: 'none',
+                duration: 3000
+              })
+             // 尝试其他解析方式
+            //  that.secDecode(vedioUrl);
            }
          },
          fail() {
