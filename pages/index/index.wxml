@@ -6,7 +6,10 @@
 <wux-notice-bar controlled content="服务器已全面升级，快来体验飞一般的速度吧！" />
 <view style='margin-top:20rpx;margin-left:40rpx;margin-right:40rpx;'>
   <wux-alert bind:click="showPic" theme="stable" title="正确食用方式:" label="去短视频APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后存至相册 -> 点击广告支持" />
-  <wux-cell-group controlled title="单链接支持：{{status}}">
+  <view  style='margin-top:20rpx;margin-bottom:20rpx'>
+   <wux-alert theme="balanced" title="单链接支持:" label="{{status}}" />
+</view>
+  <wux-cell-group controlled >
     <wux-cell hover-class="none">
       <wux-input clear controlled placeholder="轻触以输入链接或去APP复制链接" bind:change="bindUrlValue" bind:clear="bindUrlClear" value="{{url}}" />
     </wux-cell>

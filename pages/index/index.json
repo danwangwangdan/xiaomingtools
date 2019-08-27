@@ -5,6 +5,7 @@
     "wux-textarea": "../../plugins/wux/textarea/index",
     "wux-input": "../../plugins/wux/input/index",
     "wux-row": "../../plugins/wux/row/index",
+    "wux-divider": "../../plugins/wux/divider/index",
     "wux-col": "../../plugins/wux/col/index",
     "wux-avatar": "../../plugins/wux/avatar/index",
     "wux-notice-bar": "../../plugins/wux/notice-bar/index",
