@@ -3,6 +3,7 @@
 const app = getApp()
 Page({
   data: {
+    noticeIndex: '服务器已全面升级，快来体验飞一般的速度吧！',
     isBtnShow: false,
     url: '',
     status: '正在获取支持的平台...',
@@ -14,6 +15,7 @@ Page({
     bnrUrl2: ["https://loveshiming.oicp.vip/img/cash.png"],
     bnrUrl3: ["https://loveshiming.oicp.vip/img/qun.png"]
   },
+
   /**
    * 显示弹窗
    */
@@ -373,6 +375,29 @@ Page({
         if (res.data != null && res.data.data != null) {
           that.setData({
             status: res.data.data.noticeText == '' ? '服务器异常' : res.data.data.noticeText
+          })
+        }
+      },
+      fail() {
+        $stopWuxRefresher() //停止下拉刷新
+        that.setData({
+          status: '服务器异常'
+        })
+        wx.showToast({
+          title: '网络请求失败，请稍后重试！',
+          icon: 'none',
+          duration: 3000
+        })
+      }
+    });
+    wx.request({
+      url: 'https://loveshiming.oicp.vip/hishelp/common/noticeindex',
+      method: 'GET',
+      success(res) {
+        console.log(res.data);
+        if (res.data != null && res.data.data != null) {
+          that.setData({
+            noticeIndex : res.data.data.noticeText
           })
         }
       },

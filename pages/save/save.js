@@ -145,17 +145,17 @@
                })
              }
            });
-           //  downloadTask.onProgressUpdate((res) => {
-           //    console.log('下载进度', res)
+           // downloadTask.onProgressUpdate((res) => {
+           //   console.log('下载进度', res)
 
-           //    if (res.progress === 100) {
-           //      that.setData({
-           //        isSaveBtnLoad: false,
-           //        isSaveBtnDis: false,
-           //        saveBtnText: '存至相册，2积分/次'
-           //      })
-           //    }
-           //  })
+           //   if (res.progress === 100) {
+           //     that.setData({
+           //       isSaveBtnLoad: false,
+           //       isSaveBtnDis: false,
+           //       saveBtnText: '存至相册，2积分/次'
+           //     })
+           //   }
+           // })
          } else if (data.code = -101) {
            wx.showModal({
              title: '积分不足2分',
@@ -176,7 +176,6 @@
            });
          }
        }
-
      });
    },
    toCopy: function() {
@@ -252,10 +251,10 @@
          method: 'GET',
          success(res) {
            console.log(res.data);
-           wx.hideLoading();
-           if (res.data != null && res.data.status == 101) {
+           if (res.data != null && res.data.status == 103) {
              var data = res.data;
              if (data.data != null && data.data.url != '' && data.data.url != null) {
+               wx.hideLoading();
                that.setData({
                  realUrl: data.data.url,
                  isSaveShow: true,
@@ -268,22 +267,22 @@
                  duration: 3000
                })
              } else {
-                wx.showToast({
-                  title: '解析失败，请稍后重试或联系客服处理！',
-                  icon: 'none',
-                  duration: 3000
-                });
+               //  wx.showToast({
+               //    title: '解析失败，请稍后重试或联系客服处理！',
+               //    icon: 'none',
+               //    duration: 3000
+               //  });
                // 尝试其他解析方式
-              //  that.secDecode(vedioUrl);
+               that.secDecode(vedioUrl);
              }
            } else {
-              wx.showToast({
-                title: '解析失败，请稍后重试或联系客服处理！',
-                icon: 'none',
-                duration: 3000
-              })
+             //  wx.showToast({
+             //    title: '解析失败，请稍后重试或联系客服处理！',
+             //    icon: 'none',
+             //    duration: 3000
+             //  })
              // 尝试其他解析方式
-            //  that.secDecode(vedioUrl);
+             that.secDecode(vedioUrl);
            }
          },
          fail() {
@@ -294,6 +293,159 @@
            })
          }
        });
+     }
+   },
+   secDecode: function(vedioUrl) {
+     var that = this;
+     console.log("尝试其他方式"+vedioUrl)
+     if (vedioUrl.indexOf("douyin") > 0) {
+       that.setData({
+         platform: 'douyin'
+       })
+       wx.request({
+         url: 'https://service.qushuiyin.club/vcap/video/list?format=mini&userId=&target=douyin&cursor=0&count=10&shareUrl=' + encodeURIComponent(vedioUrl),
+         method: 'GET',
+         success(res) {
+           console.log('douyin2');
+           console.log(res.data);
+           wx.hideLoading();
+           if (res.data != null && res.data.status == 0) {
+             wx.hideLoading();
+             var message = JSON.parse(res.data.message);
+             if (message != null && message.count > 0) {
+               that.setData({
+                 realUrl: message.videos[0].downloadUrl,
+                 isSaveShow: true,
+                 isCopyShow: true,
+                 isVedioShow: true
+
+               })
+               wx.showToast({
+                 title: '解析成功，您可以直接存至相册了！',
+                 icon: 'none',
+                 duration: 3000
+               })
+             } else {
+               wx.showToast({
+                 title: '解析失败，请稍后重试或联系客服处理！',
+                 icon: 'none',
+                 duration: 3000
+               })
+             }
+           } else {
+             wx.showToast({
+               title: '解析失败，请稍后重试或联系客服处理！',
+               icon: 'none',
+               duration: 3000
+             })
+           }
+         },
+         fail() {
+           wx.showToast({
+             title: '网络请求失败，请稍后重试！',
+             icon: 'none',
+             duration: 3000
+           })
+         }
+       });
+     } else if (vedioUrl.indexOf("gifshow") > 0) {
+       wx.request({
+         url: 'https://service.qushuiyin.club/vcap/video/parse?format=mini&userId=&target=kuaishou&shareUrl=' + encodeURIComponent(vedioUrl),
+         method: 'GET',
+         success(res) {
+           console.log("gifshow");
+           console.log(res.data);
+           wx.hideLoading();
+           if (res.data != null && res.data.status == 0) {
+             // type ==0 列表  type==1单个
+             var userdata = res.data;
+             wx.request({
+               url: 'https://service.qushuiyin.club/vcap/video?url=' + encodeURIComponent(vedioUrl) + '&videoId=' + userdata.id + '&target=kuaishou&version=1.0.7',
+               method: 'GET',
+               success(res) {
+                 console.log("gifshowrequest");
+                 console.log(res.data);
+                 var postData = {
+                   values: {}
+                 };
+                 (function() {
+                   var commonParam = '?' + JSON.parse(res.data.message).body
+                   console.log("commonParam");
+                   console.log(commonParam);
+                   var item = '',
+                     key = '',
+                     val = '';
+                   var commonParamArr = commonParam.split('&');
+                   commonParamArr[0] = commonParamArr[0].replace(/^\?/, '');
+                   console.log(commonParamArr);
+                   for (var i = 0, len = commonParamArr.length; i < len; i++) {
+                     item = commonParamArr[i].split('=');
+                     key = item[0];
+                     val = item[1];
+                     // 排除commonParam内uid、token字段
+                     if (key == 'uid') continue;
+                     postData.values[key] = val;
+                   }
+                   console.log(postData.values);
+                 })();
+                 wx.request({
+                   url: JSON.parse(res.data.message).url,
+                   method: 'POST',
+                   header: {
+                     'content-type': 'application/x-www-form-urlencoded'
+                   },
+                   data: postData.values,
+                   success(res) {
+                     that.setData({
+                       realUrl: res.data.photos[0].main_mv_urls[0].url != '' ? res.data.photos[0].main_mv_urls[0].url : res.data.photos[0].main_mv_urls[1].url,
+                       isSaveShow: true,
+                       isCopyShow: true,
+                       isVedioShow: true
+
+                     })
+                   
+
+                   },
+                   fail() {
+                     wx.showToast({
+                       title: '网络请求失败，请稍后重试！',
+                       icon: 'none',
+                       duration: 3000
+                     })
+                   }
+                 });
+               },
+               fail() {
+                 wx.showToast({
+                   title: '网络请求失败，请稍后重试！',
+                   icon: 'none',
+                   duration: 3000
+                 })
+               }
+             });
+           } else {
+             wx.showToast({
+               title: '解析失败，请稍后重试或联系客服处理！',
+               icon: 'none',
+               duration: 3000
+             })
+           }
+         },
+         fail() {
+           wx.showToast({
+             title: '网络请求失败，请稍后重试！',
+             icon: 'none',
+             duration: 3000
+           })
+         }
+       });
+     }else{
+       wx.hideLoading()
+       wx.showToast({
+         title: '解析失败，请稍后重试或联系客服处理！',
+         icon: 'none',
+         duration: 3000
+       })
      }
    },
    //转发
