@@ -82,7 +82,7 @@ Page({
                 if (res.code) {
                   //发起网络请求
                   wx.request({
-                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/loginPro?code=' + res.code,
                     method: 'GET',
                     success(res) {
                       console.log(res.data);
@@ -242,7 +242,7 @@ Page({
                 if (res.code) {
                   //发起网络请求
                   wx.request({
-                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/loginPro?code=' + res.code,
                     method: 'GET',
                     success(res) {
                       console.log(res.data);

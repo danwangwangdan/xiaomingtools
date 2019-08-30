@@ -17,18 +17,38 @@
       <wux-col span="2">
       </wux-col>
       <wux-col span="6">
-        <text  class= 'many-text' style="font-size:35rpx">@{{item.username}}：{{item.desc}}</text>
+        <text class='many-text' style="font-size:35rpx">@{{item.username}}：{{item.desc}}</text>
         <view style="margin:35rpx 10rpx 10rpx 0">
           <wux-button data-url="{{item.downloadUrl}}" wx:if="{{isSaveShow}}" block size="" bind:click="toSave" type="balanced">
             <wux-icon type="ios-download" size="16" /> 存至相册</wux-button>
-          <wux-button  wx:if="{{isCopyShow}}" bind:click="toCopy" block  size="default" outline type="balanced">
+          <wux-button wx:if="{{isCopyShow}}" bind:click="toCopy" block size="default" outline type="balanced">
             <wux-icon type="ios-copy" size="16" /> 复制链接</wux-button>
         </view>
       </wux-col>
     </wux-row>
   </view>
 </block>
-<block wx:if="{{platform=='gifshow'}}" wx:key="id" wx:for="{{gifshowList}}">
+<view wx:if="{{platform=='gifshow'&&vsize=='one'}}" class="border">
+  <wux-row>
+    <wux-col span="4">
+      <video class="video-list" controls show-mute-btn id="myVideo" src="{{gifshowOne.main_mv_urls[0].url!=''?gifshowOne.main_mv_urls[0].url:gifshowOne.main_mv_urls[1].url}}"></video>
+    </wux-col>
+    <wux-col span="2">
+    </wux-col>
+    <wux-col span="6">
+      <view class="wux-ellipsis--l3">
+        <text class='many-text' style="font-size:35rpx">@{{gifshowName}}：{{gifshowOne.caption}}</text>
+      </view>
+      <view style="margin:35rpx 10rpx 10rpx 0">
+        <wux-button data-url="{{gifshowOne.main_mv_urls[0].url!=''?gifshowOne.main_mv_urls[0].url:gifshowOne.main_mv_urls[1].url}}" wx:if="{{isSaveShow}}" block size="" bind:click="toSave" type="balanced">
+          <wux-icon type="ios-download" size="16" /> 存至相册</wux-button>
+        <wux-button block wx:if="{{isCopyShow}}" bind:click="toCopy" size="default" outline type="balanced">
+          <wux-icon type="ios-copy" size="16" /> 复制链接</wux-button>
+      </view>
+    </wux-col>
+  </wux-row>
+</view>
+<!-- <block wx:if="{{platform=='gifshow'&&vsize=='one'}}" wx:key="id" wx:for="{{gifshowList}}">
   <view class="border">
     <wux-row>
       <wux-col span="4">
@@ -44,6 +64,28 @@
           <wux-button data-url="{{item.main_mv_urls[0].url!=''?item.main_mv_urls[0].url:item.main_mv_urls[1].url}}" wx:if="{{isSaveShow}}" block size="" bind:click="toSave" type="balanced">
             <wux-icon type="ios-download" size="16" /> 存至相册</wux-button>
           <wux-button block wx:if="{{isCopyShow}}" bind:click="toCopy" size="default" outline type="balanced">
+            <wux-icon type="ios-copy" size="16" /> 复制链接</wux-button>
+        </view>
+      </wux-col>
+    </wux-row>
+  </view>
+</block> -->
+<block wx:if="{{platform=='gifshow'&&vsize=='list'}}" wx:key="id" wx:for="{{gifshowList}}">
+  <view class="border">
+    <wux-row>
+      <wux-col span="4">
+        <video class="video-list" controls show-mute-btn id="myVideo" src="{{item.main_mv_urls[0].url!=''?item.main_mv_urls[0].url:item.main_mv_urls[1].url}}"></video>
+      </wux-col>
+      <wux-col span="2">
+      </wux-col>
+      <wux-col span="6">
+        <view class="wux-ellipsis--l3">
+          <text class='many-text' style="font-size:35rpx">@{{item.user_name}}：{{item.caption}}</text>
+        </view>
+        <view style="margin:35rpx 10rpx 10rpx 0">
+          <wux-button data-url="{{item.main_mv_urls[0].url!=''?item.main_mv_urls[0].url:item.main_mv_urls[1].url}}" wx:if="{{isSaveShow}}" block size="" bind:click="toSave" type="balanced">
+            <wux-icon type="ios-download" size="16" /> 存至相册</wux-button>
+          <wux-button  data-url="{{item.main_mv_urls[0].url!=''?item.main_mv_urls[0].url:item.main_mv_urls[1].url}}"  block wx:if="{{isCopyShow}}" bind:click="toCopy" size="default" outline type="balanced">
             <wux-icon type="ios-copy" size="16" /> 复制链接</wux-button>
         </view>
       </wux-col>
