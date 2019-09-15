@@ -28,12 +28,12 @@ Page({
         var data = res.data;
         if (data.code >= 0) {
           wx.showToast({
-            title: ' 签到成功，增加10积分！',
+            title: ' 签到成功，增加2积分！',
             icon: 'none',
             duration: 2000
           })
           that.setData({
-            point: currPoint + 10,
+            point: currPoint + 2,
             signCount: currSignPoint + 1,
           })
         } else if (data.code == -102) {
@@ -240,7 +240,7 @@ Page({
                 if (res.code) {
                   //发起网络请求
                   wx.request({
-                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/loginPro?code=' + res.code,
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
                     method: 'GET',
                     success(res) {
                       console.log(res.data);

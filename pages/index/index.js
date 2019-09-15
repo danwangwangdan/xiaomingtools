@@ -2,6 +2,18 @@
 //获取应用实例
 const app = getApp()
 Page({
+  //事件处理函数
+  toPro: function () {
+    console.log("即将跳转")
+    wx.navigateToMiniProgram({
+      appId: 'wx6c54f40530b65ae8',
+      path: 'pages/index/index',
+      envVersion: 'release',
+      success(res) {
+        // 打开成功
+      }
+    })
+  },
   data: {
     noticeIndex: '服务器已全面升级，快来体验飞一般的速度吧！',
     isBtnShow: false,
@@ -83,7 +95,7 @@ Page({
                 if (res.code) {
                   //发起网络请求
                   wx.request({
-                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/loginPro?code=' + res.code,
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
                     method: 'GET',
                     success(res) {
                       console.log(res.data);
@@ -263,7 +275,7 @@ Page({
                 if (res.code) {
                   //发起网络请求
                   wx.request({
-                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/loginPro?code=' + res.code,
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
                     method: 'GET',
                     success(res) {
                       console.log(res.data);
@@ -390,6 +402,7 @@ Page({
         })
       }
     });
+
     wx.request({
       url: 'https://loveshiming.oicp.vip/hishelp/common/noticeindex',
       method: 'GET',

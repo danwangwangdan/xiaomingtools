@@ -251,7 +251,7 @@
          method: 'GET',
          success(res) {
            console.log(res.data);
-           if (res.data != null && res.data.status == 103) {
+           if (res.data != null && res.data.status == 101) {
              var data = res.data;
              if (data.data != null && data.data.url != '' && data.data.url != null) {
                wx.hideLoading();

@@ -23,6 +23,6 @@
       <wux-icon type="ios-chatbubbles" size="16" /> 联系客服</wux-button>
         <!-- <wux-button block size="default " outline bind:click="bindCash" type="balanced ">
       <wux-icon type="ios-timer" size="16 " /> 打赏作者给服务器提速</wux-button> -->
-    <video wx:if="{{isVedioShow}}" show-mute-btn id="myVideo" src="{{realUrl}}" controls></video>
+    <video unit-id="adunit-328d6cd540e55342" wx:if="{{isVedioShow}}" show-mute-btn id="myVideo" src="{{realUrl}}" controls></video>
   </view>
 </view>

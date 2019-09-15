@@ -12,11 +12,11 @@
     </view>
   </view>
 </view>
-<ad unit-id="adunit-5dec35ad334a4ca8"></ad>
+<ad unit-id="adunit-80d0374fe08db523" ad-type="video" ad-theme="white"></ad>
 <view style="margin-top:20rpx">
   <wux-notice-bar controlled content="积分不够用请在首页联系客服。" />
 </view>
-<!-- <view style="margin-top:20rpx">
+<view style="margin-top:20rpx">
   <wux-button block bordered="false" size="default" bind:click="toVideo" type="stable ">
     <wux-wing-blank size="default">
       <wux-card title=" 观看视频，+5积分/次" thumb="../../../pics/video.png" extra="">
@@ -25,13 +25,13 @@
       </wux-card>
     </wux-wing-blank>
   </wux-button>
-</view> -->
+</view>
 <view style="margin-top:25rpx">
 
   <view style="margin-top:25rpx;margin-bottom:50rpx">
     <wux-button block bordered="false" size="default" bind:click="toSign" type="stable ">
       <wux-wing-blank size="default" bindtap="toSign">
-        <wux-card title=" 每日签到，+10积分/次" thumb="../../../pics/sign.png" extra="">
+        <wux-card title=" 每日签到，+2积分/次" thumb="../../../pics/sign.png" extra="">
           <view slot="body">每日上限1次。点击该卡片即可签到</view>
           <view slot="footer">{{signCount}}/1</view>
         </wux-card>
