@@ -1,7 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
-let interstitialAd = null
+
 Page({
   data: {
     isBtnShow: false,
@@ -82,7 +82,7 @@ Page({
                 if (res.code) {
                   //发起网络请求
                   wx.request({
-                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/loginPro?code=' + res.code,
                     method: 'GET',
                     success(res) {
                       console.log(res.data);
@@ -124,7 +124,7 @@ Page({
 
       if (wx.getStorageSync("userInfo").point < 2) {
         wx.showModal({
-          title: '积分不足2分',
+          title: '积分不足3分',
           content: '解析不扣除积分，但先去个人中心完成免费的任务增加积分哦',
           success: function (res) {
             if (res.confirm) {
@@ -222,14 +222,7 @@ Page({
   },
   onLoad: function () {
 
-    if (wx.createInterstitialAd) {
-      interstitialAd = wx.createInterstitialAd({
-        adUnitId: 'adunit-e7d9cd4b1f5a4c00'
-      })
-      interstitialAd.onLoad(() => { })
-      interstitialAd.onError((err) => { })
-      interstitialAd.onClose(() => { })
-    };
+   
     if (wx.getStorageSync("userInfo") == undefined || wx.getStorageSync("userInfo") == "") {
       //未登录，请前去登录
       wx.showModal({
@@ -242,7 +235,7 @@ Page({
                 if (res.code) {
                   //发起网络请求
                   wx.request({
-                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/loginPro?code=' + res.code,
                     method: 'GET',
                     success(res) {
                       console.log(res.data);
@@ -288,11 +281,7 @@ Page({
   },
   onShow: function () {
     var that = this;
-    if (interstitialAd) {
-      interstitialAd.show().catch((err) => {
-        console.error(err)
-      })
-    }
+  
     wx.getClipboardData({
       success(res) {
         var lastUrl = wx.getStorageSync('lastUrl2');

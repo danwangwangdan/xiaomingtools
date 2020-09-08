@@ -4,15 +4,17 @@
       <open-data wx:if="{{isLogin==1}}" class="userinfo-avatar" type="userAvatarUrl"></open-data>
     </view>
     <view class="user-info flex-item">
-      <open-data wx:if="{{isLogin==1}}" class="userinfo-nickname" type="userNickName"></open-data> <text wx:if="{{isLogin==1}}" decode="{{true}}" class="userinfo-nickname">，积分： {{point}}</text>
+      <open-data wx:if="{{isLogin==1}}" class="userinfo-nickname" type="userNickName"></open-data>
+      <text wx:if="{{isLogin==1}}" decode="{{true}}" class="userinfo-nickname">，积分： {{point}}</text>
       <wux-button block size="small " outline type="balanced" bind:click="sRequest">
-          特殊请求</wux-button>
+        特殊请求</wux-button>
       <text wx:if="{{isLogin==0}}" class="userinfo-nickname">未登录</text>
-      
+
     </view>
   </view>
 </view>
-<ad unit-id="adunit-80d0374fe08db523" ad-type="video" ad-theme="white"></ad>
+<!-- <ad unit-id="adunit-80d0374fe08db523" ad-type="video" ad-theme="white"></ad> -->
+<ad unit-id="adunit-1326a258286277f4" ad-type="video" ad-theme="white"></ad>
 <view style="margin-top:20rpx">
   <wux-notice-bar controlled content="积分不够用请在首页联系客服。" />
 </view>

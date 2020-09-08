@@ -1,11 +1,12 @@
 <!--index.wxml-->
 <add-tips/>
 <view  style='margin-bottom:20rpx;margin-left:30rpx;margin-right:30rpx;'>
-  <ad unit-id="adunit-80d0374fe08db523" ad-type="video" ad-theme="white"></ad>
+  <!-- <ad unit-id="adunit-80d0374fe08db523" ad-type="video" ad-theme="white"></ad> -->
+  <ad unit-id="adunit-1326a258286277f4" ad-type="video" ad-theme="white"></ad>
 </view>
 <wux-notice-bar content="{{noticeIndex}}" />
 <view style='margin-top:20rpx;margin-left:40rpx;margin-right:40rpx;'>
-  <wux-alert bind:click="showPic" theme="stable" title="正确食用方式:" label="去短视频APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后存至相册 -> 点击广告支持" />
+  <wux-alert bind:click="showPic" theme="stable" title="正确食用方式:" label="去短视频APP中点击分享按钮 -> 复制链接后返回到这里 -> 点击获取视频 -> 成功后存至相册 -> 支持作者！" />
   <view  style='margin-top:20rpx;margin-bottom:20rpx'>
    <wux-alert theme="balanced" title="单链接支持:" label="{{status}}" />
 </view>

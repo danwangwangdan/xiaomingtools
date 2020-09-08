@@ -1,5 +1,6 @@
 <view style='margin-bottom:20rpx'>
-  <ad unit-id="adunit-5dec35ad334a4ca8"></ad>
+  <!-- <ad unit-id="adunit-80d0374fe08db523" ad-type="video" ad-theme="white"></ad> -->
+  <ad unit-id="adunit-1326a258286277f4" ad-type="video" ad-theme="white"></ad>
 </view>
 <!-- <wux-notice-bar controlled content="遇到问题请联系客服。" /> -->
 <view style='margin-top:20rpx;margin-left:40rpx;margin-right:40rpx;'>

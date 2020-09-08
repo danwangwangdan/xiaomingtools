@@ -8,7 +8,7 @@
      realUrl: '',
      isSaveBtnLoad: false,
      isSaveBtnDis: false,
-     saveBtnText: '存至相册，2积分/次',
+     saveBtnText: '存至相册，3积分/次',
      bnrUrl: ["https://loveshiming.oicp.vip/img/qun.png",
        "https://loveshiming.oicp.vip/img/dybg.png"
      ],
@@ -56,12 +56,12 @@
              isSaveBtnDis: true
            })
            wx.showToast({
-             title: '已扣除2积分， 开始存至相册！',
+             title: '已扣除3积分， 开始存至相册！',
              icon: 'none',
              duration: 2000
            })
            const downloadTask = wx.downloadFile({
-             url: 'https://api.tecms.net/downVideo.php?url=' + that.data.realUrl,
+             url: 'https://api.lingquan166.com/downVideo.php?url=' + that.data.realUrl,
              success(res) {
                console.log("开始下载...")
                console.log(res)
@@ -73,7 +73,7 @@
                      that.setData({
                        isSaveBtnLoad: false,
                        isSaveBtnDis: false,
-                       saveBtnText: '存至相册，2积分/次'
+                       saveBtnText: '存至相册，3积分/次'
                      })
                      wx.showToast({
                        title: '保存成功，请去系统相册查看！',
@@ -86,7 +86,7 @@
                  that.setData({
                    isSaveBtnLoad: false,
                    isSaveBtnDis: false,
-                   saveBtnText: '存至相册，2积分/次'
+                   saveBtnText: '存至相册，3积分/次'
                  })
                  wx.request({
                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/addpoint?id=' + wx.getStorageSync("userInfo").id + '&point=2',
@@ -104,7 +104,7 @@
                    }
                  });
                  wx.showToast({
-                   title: '保存失败，已退回2积分，请复制链接到浏览器下载！',
+                   title: '保存失败，已退回3积分，请复制链接到浏览器下载！',
                    icon: 'none',
                    duration: 3000
                  })
@@ -114,14 +114,14 @@
                that.setData({
                  isSaveBtnLoad: false,
                  isSaveBtnDis: false,
-                 saveBtnText: '存至相册，2积分/次'
+                 saveBtnText: '存至相册，3积分/次'
                })
              },
              fail() {
                that.setData({
                  isSaveBtnLoad: false,
                  isSaveBtnDis: false,
-                 saveBtnText: '存至相册，2积分/次'
+                 saveBtnText: '存至相册，3积分/次'
                })
                wx.request({
                  url: app.globalData.myApiUrl + 'hishelp/shuiyin/addpoint?id=' + wx.getStorageSync("userInfo").id + '&point=2',
@@ -139,7 +139,7 @@
                  }
                });
                wx.showToast({
-                 title: '保存失败，已退回2积分，请复制链接到浏览器下载！',
+                 title: '保存失败，已退回3积分，请复制链接到浏览器下载！',
                  icon: 'none',
                  duration: 3000
                })
@@ -152,13 +152,13 @@
            //     that.setData({
            //       isSaveBtnLoad: false,
            //       isSaveBtnDis: false,
-           //       saveBtnText: '存至相册，2积分/次'
+           //       saveBtnText: '存至相册，3积分/次'
            //     })
            //   }
            // })
          } else if (data.code = -101) {
            wx.showModal({
-             title: '积分不足2分',
+             title: '积分不足3分',
              content: '先去个人中心完成免费的任务增加积分哦',
              success: function(res) {
                if (res.confirm) {
@@ -181,7 +181,7 @@
    toCopy: function() {
      var that = this;
      wx.setClipboardData({
-       data: 'https://api.tecms.net/downVideo.php?url=' + that.data.realUrl,
+       data: 'https://api.lingquan166.com/downVideo.php?url=' + that.data.realUrl,
        success: function(res) {
          wx.showToast({
            title: '复制成功，请去第三方浏览器(如QQ/UC)打开下载！',
@@ -247,7 +247,7 @@
 
      } else {
        wx.request({
-         url: 'https://api.tecms.net/dsp?token=050937FU65641YKNJKL&key=4E0708A3ECNJKL5FFA40FB&url=' + vedioUrl,
+         url: 'https://api.lingquan166.com/dsp?token=111032QZ94631AFUWIQ&key=4FCBDFDCD5UWIQ18C5EDB5&url=' + vedioUrl,
          method: 'GET',
          success(res) {
            console.log(res.data);

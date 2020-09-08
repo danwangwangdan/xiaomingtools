@@ -1,6 +1,6 @@
-
 <view>
-<ad unit-id="adunit-5dec35ad334a4ca8"></ad>
+  <!-- <ad unit-id="adunit-80d0374fe08db523" ad-type="video" ad-theme="white"></ad> -->
+  <ad unit-id="adunit-1326a258286277f4" ad-type="video" ad-theme="white"></ad>
   <!-- <swiper class='u-wrp-bnr' indicator-dots='true' autoplay='true' interval='5000' duration='1000' circular='true'>
     <block wx:for="{{bnrUrl}}" wx:key="index" wx:for-index="index">
       <swiper-item>
@@ -17,11 +17,11 @@
   <view style='margin-top:30rpx;margin-left:30rpx;margin-right:30rpx;'>
     <wux-button loading="{{isSaveBtnLoad}}" disabled="{{isSaveBtnDis}}" wx:if="{{isSaveShow}}" block size="default" bind:click="toSave" type="balanced">
       <wux-icon type="ios-download" size="16" /> {{saveBtnText}}</wux-button>
-   <wux-button block wx:if="{{isCopyShow}}" bind:click="toCopy" size="default" outline  type="balanced">
+    <wux-button block wx:if="{{isCopyShow}}" bind:click="toCopy" size="default" outline type="balanced">
       <wux-icon type="ios-copy" size="16" /> 复制下载链接</wux-button>
     <wux-button block size="default" outline openType="contact" type="balanced">
       <wux-icon type="ios-chatbubbles" size="16" /> 联系客服</wux-button>
-        <!-- <wux-button block size="default " outline bind:click="bindCash" type="balanced ">
+    <!-- <wux-button block size="default " outline bind:click="bindCash" type="balanced ">
       <wux-icon type="ios-timer" size="16 " /> 打赏作者给服务器提速</wux-button> -->
     <video unit-id="adunit-328d6cd540e55342" wx:if="{{isVedioShow}}" show-mute-btn id="myVideo" src="{{realUrl}}" controls></video>
   </view>

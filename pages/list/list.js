@@ -47,7 +47,7 @@
            console.log("积分扣除");
            // 扣除积分，积分不够则提醒
            wx.showToast({
-             title: '已扣除2积分,后台下载中,请耐心等待成功提示！',
+             title: '已扣除3积分,后台下载中,请耐心等待成功提示！',
              icon: 'none',
              duration: 2000
            })
@@ -57,7 +57,7 @@
              isSaveBtnDis: true
            })
            const downloadTask = wx.downloadFile({
-             url: 'https://api.tecms.net/downVideo.php?url=' + that.data.realUrl,
+             url: 'https://api.lingquan166.com/downVideo.php?url=' + that.data.realUrl,
              success(res) {
                console.log("开始下载...")
                console.log(res)
@@ -81,7 +81,7 @@
                  that.setData({
                    isSaveBtnLoad: false,
                    isSaveBtnDis: false,
-                   saveBtnText: '存至相册，2积分/次'
+                   saveBtnText: '存至相册，3积分/次'
                  })
                  wx.request({
                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/addpoint?id=' + wx.getStorageSync("userInfo").id + '&point=2',
@@ -109,7 +109,7 @@
                that.setData({
                  isSaveBtnLoad: false,
                  isSaveBtnDis: false,
-                 saveBtnText: '存至相册，2积分/次'
+                 saveBtnText: '存至相册，3积分/次'
                })
                wx.showToast({
                  title: '保存失败，请复制链接到浏览器下载！',
@@ -125,13 +125,13 @@
                that.setData({
                  isSaveBtnLoad: false,
                  isSaveBtnDis: false,
-                 saveBtnText: '存至相册，2积分/次'
+                 saveBtnText: '存至相册，3积分/次'
                })
              }
            })
          } else if (data.code = -101) {
            wx.showModal({
-             title: '积分不足2分',
+             title: '积分不足3分',
              content: '先去个人中心完成免费的任务增加积分哦',
              success: function(res) {
                if (res.confirm) {
@@ -164,7 +164,7 @@
        realUrl: videoUrl
      })
      wx.setClipboardData({
-       data: 'https://api.tecms.net/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
+       data: 'https://api.lingquan166.com/downVideo.php?url=' + encodeURIComponent(that.data.realUrl),
        success: function(res) {
          wx.showToast({
            title: '复制成功，请去第三方浏览器(如QQ/Alook等)打开下载！',
@@ -197,7 +197,7 @@
                  })
                  if (that.data.platform == 'douyin') {
                    that.fetchDYAll(that.data.nextCursorFor);
-                 } else if (that.data.platform == 'gifshow') {
+                 } else {
                    that.fetchKSAll(that.data.pCursorFor);
                  }
                } else if (data.code = -101) {
@@ -445,7 +445,7 @@
            duration: 3000
          })
        }
-     } else if (that.data.platform == 'gifshow') {
+     } else {
        if (that.data.pCursor != '' && that.data.pCursor != 'no_more') {
          this.fetchGifshow(that.data.pCursor)
        } else {

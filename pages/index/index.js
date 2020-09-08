@@ -95,7 +95,7 @@ Page({
                 if (res.code) {
                   //发起网络请求
                   wx.request({
-                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/loginPro?code=' + res.code,
                     method: 'GET',
                     success(res) {
                       console.log(res.data);
@@ -105,7 +105,7 @@ Page({
                         wx.setStorageSync("userInfo", userInfo);
                         wx.showModal({
                           title: '登录成功',
-                          content: '新用户将赠送您50积分，下载一次需要2积分，积分不够了可以去个人中心完成简单的任务获取',
+                          content: '新用户将赠送您50积分，下载一次需要3积分，积分不够了可以去个人中心完成简单的任务获取',
                           success: function(res) {
                             if (res.confirm) {
                               wx.switchTab({
@@ -148,7 +148,7 @@ Page({
 
       if (wx.getStorageSync("userInfo").point < 2) {
         wx.showModal({
-          title: '积分不足2分',
+          title: '积分不足3分',
           content: '解析不扣除积分，但先去个人中心完成免费的任务增加积分哦',
           success: function(res) {
             if (res.confirm) {
@@ -275,7 +275,7 @@ Page({
                 if (res.code) {
                   //发起网络请求
                   wx.request({
-                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/loginPro?code=' + res.code,
                     method: 'GET',
                     success(res) {
                       console.log(res.data);
@@ -285,7 +285,7 @@ Page({
                         wx.setStorageSync("userInfo", userInfo);
                         wx.showModal({
                           title: '登录成功',
-                          content: '新用户将赠送您50积分，下载一次需要2积分，积分不够了可以去个人中心完成简单的任务获取',
+                          content: '新用户将赠送您50积分，下载一次需要3积分，积分不够了可以去个人中心完成简单的任务获取',
                           success: function(res) {
                             if (res.confirm) {
                               wx.switchTab({

@@ -1,6 +1,4 @@
-<view  style='margin-bottom:20rpx'>
-  <ad unit-id="adunit-5dec35ad334a4ca8"></ad>
-</view>
+
 <view style='margin-top:20rpx;margin-left:40rpx;margin-right:40rpx;'>
   <wux-alert bind:click="toCopyIDM" theme="balanced" title="批量下载需在电脑上完成！点我复制IDM软件下载地址: https://www.lanzous.com/i4upzyd" />
   <view style='margin-top:40rpx;margin-left:40rpx;margin-right:40rpx;'>

@@ -1,5 +1,6 @@
 var app = getApp()
 let videoAd = null
+let interstitialAd = null
 Page({
 
   /**
@@ -20,7 +21,7 @@ Page({
     var currSignPoint = that.data.signCount;
     console.log("签到" + currPoint);
     wx.request({
-      url: app.globalData.myApiUrl + 'hishelp/shuiyin/add?id=' + wx.getStorageSync("userInfo").id + '&type=3',
+      url: app.globalData.myApiUrl + 'hishelp/shuiyin/addPro?id=' + wx.getStorageSync("userInfo").id+"&type=3",
       method: 'GET',
       success(res) {
         console.log(res.data);
@@ -166,9 +167,19 @@ Page({
   onLoad: function() {
 
     var that = this;
+    if (wx.createInterstitialAd) {
+      interstitialAd = wx.createInterstitialAd({
+        // adUnitId: 'adunit-e7d9cd4b1f5a4c00'
+        adUnitId: 'adunit-e9f570fae626adde'
+      })
+      interstitialAd.onLoad(() => { })
+      interstitialAd.onError((err) => { })
+      interstitialAd.onClose(() => { })
+    };
     if (wx.createRewardedVideoAd) {
       videoAd = wx.createRewardedVideoAd({
-        adUnitId: 'adunit-498062c378a63ba4'
+        // adUnitId: 'adunit-d4321a1e6bc43613'
+        adUnitId: 'adunit-5d02f2f2d3e5bf49'
       })
       videoAd.onLoad(() => {})
       videoAd.onError((err) => {
@@ -240,7 +251,7 @@ Page({
                 if (res.code) {
                   //发起网络请求
                   wx.request({
-                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/login?code=' + res.code,
+                    url: app.globalData.myApiUrl + 'hishelp/shuiyin/loginPro?code=' + res.code,
                     method: 'GET',
                     success(res) {
                       console.log(res.data);
@@ -253,7 +264,7 @@ Page({
                         })
                         wx.showModal({
                           title: '登录成功',
-                          content: '新用户将赠送您50积分，下载一次需要2积分，积分不够了可以去个人中心完成简单的任务获取',
+                          content: '新用户将赠送您50积分，下载一次需要3积分，积分不够了可以去个人中心完成简单的任务获取',
                           success: function(res) {
                             if (res.confirm) {
                               wx.switchTab({
@@ -313,6 +324,11 @@ Page({
    */
   onShow: function() {
     var that = this;
+    if (interstitialAd) {
+      interstitialAd.show().catch((err) => {
+        console.error(err)
+      })
+    }
     wx.request({
       url: app.globalData.myApiUrl + 'hishelp/shuiyin/find?id=' + wx.getStorageSync("userInfo").id,
       method: 'GET',
